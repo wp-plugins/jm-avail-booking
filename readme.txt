@@ -13,11 +13,11 @@ A Calendar to show the day-to-day availability of a room/house with an integrati
 == Description ==
 Availability Calendar & booking is a calendar to show the availability of whatever you might need it for (eg. holiday cottage, hotel rooms etc.).
 
-The shortcode [availbooking name="Voorkamer"] inserts the calendar(screenshot1) with the bookings information of the “Voorkamer” in the article. An article may contains different calendars each identified by a unique name.
+The shortcode [availbooking name="Voorkamer"] inserts the calendar(screenshot-1) with the bookings information of the -Voorkamer- in the article. An article may contains different calendars each identified by a unique name.
 
 The admin interface supports a database for the bookings and a database for the price information.
 
-The bookings database contains all bookings for all bookable items (screenshot 2) With the menu “Add new booking” or with the “Add new booking” button a form is availabile to enter a new booking. (screenshot 3)
+The bookings database contains all bookings for all bookable items (screenshot-2) With the menu -Add new booking- or with the -Add new booking- button a form is availabile to enter a new booking. (screenshot-3)
 
 Name: select the name from the list of available bookable items (see settings)
 Status:
@@ -32,9 +32,9 @@ Phone number: The phone number of the applicant.
 Country: The country of the applicant.
 Language: The preferred language of the applicant.
 
-The price database contains the price definitions.(screenshot 4)
-The example of screenshot 4 reads as, the price of the “Voorkamer” is € 65,00 from 2015-01-05 till 2015-05-21 and is € 75,00 from 2015-05-22 on.
-With the menu “Add new price” or with the “Add new price” button a form is availabile to enter a new price. (screenshot 5)
+The price database contains the price definitions.(screenshot-4)
+The example of screenshot 4 reads as, the price of the -Voorkamer- is euro 65,00 from 2015-01-05 till 2015-05-21 and is euro 75,00 from 2015-05-22 on.
+With the menu -Add new price- or with the -Add new price- button a form is availabile to enter a new price. (screenshot 5)
 Name: select the name from the list of available bookable items (see settings)
 Date: Start date of the new price.
 Price: The new price.
