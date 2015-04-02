@@ -1,0 +1,243 @@
+<?php
+
+/*
+ * Availability Calendar
+ * 
+ * 
+ */
+
+class AvailabilityCalendar {
+
+    public $currentYear;
+    public $currentMonth;
+    private $currentdayofMonth;
+    private $month_name;
+    private $options;
+
+    // The constructor.
+    function __construct() {
+        $currentTime = current_time('mysql');
+        list( $currentYear, $currentMonth, $dayofMonth ) = preg_split('([^0-9])', $currentTime);
+        $this->currentYear = $currentYear;
+        $this->currentMonth = $currentMonth;
+        $this->dayofMonth = $dayofMonth;
+
+        //Get plugin options
+        $options = get_option('jm_avail_booking_option_name');
+        $this->options = $options;
+
+        $this->week_firstday = get_option('start_of_week', '1');
+    }
+
+    public function getHeader($year, $month, $instance) {
+
+        $colspan = 5;
+        If (isset($this->options[weeknumbers])) {
+            $colspan = 6;
+        }
+        $month_name = AvailabilityBookingFunctions::month_to_name($month);
+        //Built Calendar
+        // Build availcal div
+        $calendar = "<div class=\"table-responsivel\" >";
+        $calendar .= "	<div class=\"table_pos\"><table class=\"table table-bordered\"  >
+                        <thead>
+                        <tr class=\"cal_title\">
+			<td class=\"left\"><a href=\"#\" class=\"makeRequest\" data-instance=\"$instance\" >&lt;--</a></td>
+			<td colspan=\"$colspan\" class=\"cal_month\">
+			<div id=\"availcalheader$instance\">$month_name,$year</div></td>		
+			<td class=\"right\"><a href=\"#\" class=\"makeRequest2\" data-instance=\"$instance\">--&gt;</a></td></tr>";
+        if (isset($this->options[weeknumbers])) {
+            $calendar .= "<td class=\"weeknbr\">&#35;</td>";
+        }
+        if ($this->week_firstday == '0') {
+            $calendar .= "<td>" . __('Su', 'jm_avail_booking') . "</td><td>" . __('Mo', 'jm_avail_booking') . "</td><td>" . __('Tu', 'jm_avail_booking') . "</td><td>" . __('We', 'jm_avail_booking') . "</td><td>" . __('Th', 'jm_avail_booking') . "</td><td>" . __('Fr', 'jm_avail_booking') . "</td><td>" . __('Za', 'jm_avail_booking') . "</td></tr>";
+        } else {
+            $calendar .= "<td>" . __('Mo', 'jm_avail_booking') . "</td><td>" . __('Tu', 'jm_avail_booking') . "</td><td>" . __('We', 'jm_avail_booking') . "</td><td>" . __('Th', 'jm_avail_booking') . "</td><td>" . __('Fr', 'jm_avail_booking') . "</td><td>" . __('Sa', 'jm_avail_booking') . "</td><td>" . __('Su', 'jm_avail_booking') . "</td></tr>";
+        }
+        $calendar .= "</thead>";
+        // footer
+        $calendar .= '<tfoot><tr class="empty_row\">';
+        if (isset($this->options[weeknumbers])) {
+            $calendar .= "<td class=\"weeknbr\">&nbsp;</td><td colspan=\"7\">&nbsp;</td></tr><tr>";
+        } else {
+            $calendar .= "<td colspan=\"7\">&nbsp;</td></tr><tr>";
+        }
+
+        if (isset($this->options[weeknumbers])) {
+            $calendar .= "<td class=\"weeknbr\">&nbsp;</td>";
+        }
+        $calendar .= "<td class=\"cal_post display_post\">&nbsp;</td> <td class=\"display_post\" colspan=\"6\">"
+                . __('booked', 'jm_avail_booking');
+
+        $calendar .= "</td></tr>\n";
+
+        $calendar .= "</tfoot><tbody id=\"data-update$instance\">";
+        return $calendar;
+    }
+
+    public function getDays($year, $month, $instance, $name) {
+
+        //Determin month to display
+
+        if ($month == 13) {
+            $month = 01;
+            $year = $year + 1;
+        }
+        if ($month == 0) {
+            if ($year <= $this->currentYear) {
+                $year = $this->currentYear;
+                $month = 01;
+            } else {
+                $month = 12;
+                $year = $year - 1;
+            }
+        }
+        if (($month < $this->currentMonth) AND ( $year == $this->currentYear)) {
+            $month = $this->currentMonth;
+        }
+        $month = sprintf("%02s", $month);
+
+        $first_of_month = mktime(0, 0, 0, $month, 1, $year);
+        $maxdays = date('t', $first_of_month);
+        $date_info = getdate($first_of_month);
+        $bookings = array();
+        if ($this->week_firstday == '0') {
+            $weekday = $date_info['wday'];
+        } else {
+            $weekday = $date_info['wday'] - 1;
+            if ($weekday == -1) {
+                $weekday = 6;
+            }
+        }
+
+
+
+        $month_name = AvailabilityBookingFunctions::month_to_name($month);
+        $monthmin = $month - 1;
+        $monthplus = $month + 1;
+        $header = $month_name . "," . $year;
+
+        //Body part Table
+
+        $calendar .= "<tr id=\"table_info$instance\" style=\"display: none;\" data-year=\"$year\" data-monthmin=\"$monthmin\" data-monthplus=\"$monthplus\" data-monthname=\"$header\" data-name=\"$name\"></tr><tr>";
+        $day = 1;
+        $linkDate = mktime(0, 0, 0, $month, $day, $year);
+        $week = (int) date('W', $linkDate);
+        if ($this->week_firstday == '0') {
+            $week = (int) date('W', ($linkDate + 60 * 60 * 24));
+        }
+        if (isset($this->options[weeknumbers])) {
+            $calendar .= "<td class=\"weeknbr\">$week</td>";
+        }
+        if ($weekday > 0) {
+            $calendar .= "<td colspan=\"$weekday\">&nbsp;</td>\n";
+        }
+        $teller = 0;
+        $last_price = 0;
+        $avail_booking_db = new Avail_Booking_db();
+        /*
+         * Get price info
+         * $last_price = -1 if no last price is found in db
+         * 
+         * 
+         */
+        $last_price_array = $avail_booking_db->get_last_price($name, $month, $year);
+        if ($last_price_array != -1) {
+            $last_price = $last_price_array[0]['price'];
+        }
+        $prices = $avail_booking_db->get_prices($name, $month, $year);
+
+        while ($day <= $maxdays) {
+            $linkDate = mktime(0, 0, 0, $month, $day, $year);
+            foreach ($prices as $price) {
+                if ($linkDate == $price['date']) {
+                    $last_price = $price['price'];
+                }
+            }
+            $week = (int) date('W', $linkDate);
+            if ($this->week_firstday == '0') {
+                $week = (int) date('W', ($linkDate + 60 * 60 * 24));
+            }
+            if ($weekday == 7) {
+                $calendar .= "</tr>\n<tr>";
+                if (isset($this->options[weeknumbers])) {
+                    $calendar .= "<td class=\"weeknbr\">$week</td>";
+                }
+                $weekday = 0;
+                $teller++;
+            }
+
+
+            if (($day == $this->dayofMonth) and ( $year == $this->currentYear) and ( $month == $this->currentMonth)) {
+                $status = 4;
+            } else {
+                $status = 0;
+            }
+
+
+            $bookings = $avail_booking_db->get_items($name, $month, $year);
+            
+            foreach ($bookings as $booking) {
+                if (($linkDate <= $booking['end']) and ( $linkDate >= $booking['start'])) {
+                    $status = 2; //busy
+                    if (isset($this->options[firstlast])AND $this->options[firstlast] == 1) {
+                        if ($linkDate == $booking['start']) {
+                            $status = 1; // first day
+                        }
+                        if ($linkDate == $booking['end']) {
+                            $status = 3; //last day
+                        }
+                        if (($linkDate == $booking['start']) AND ( $linkDate == $booking['end'])) {
+                            $status = 2; //busy
+                        }
+                    }
+                }
+            }
+            switch ($status) {
+                case 0:
+                    $class = 'cal_empty';
+                    break;
+                case 1 :
+                    $class = 'cal_firstday_post';
+                    $status = 0;
+                    break;
+                case 2 :
+                    $class = 'cal_post';
+                    $status = 0;
+                    break;
+                case 3 :
+                    $class = 'cal_lastday_post';
+                    $status = 0;
+                    break;
+                case 4:
+                    $class = 'cal_today';
+                    break;
+                default :
+                    $class = 'cal_empty';
+                    $darken = 0;
+            }
+
+            $text_price = '';
+            If ((isset($this->options['showprices']) AND ( $last_price != -1))) {
+                $text_price = "<br><div class= \"textprice\">" . $last_price . "</div>";
+            }
+            $calendar .= "<td class=\"$class\">$day  $text_price </td>\n";
+            $day++;
+            $weekday++;
+        }
+        if ($weekday != 7) {
+            $calendar .= '<td colspan="' . (7 - $weekday) . '">&nbsp;</td>';
+        }
+
+        $calendar .= "</tr>";
+
+        return $calendar;
+    }
+
+    public function closeTable() {
+        $calendar = "</tbody></table></div></div>";
+
+        return $calendar;
+    }
+
+}

@@ -1,0 +1,76 @@
+/* 
+    Created on : 2-aug-2014, 18:48:22
+    Author     : Jan
+*/
+
+
+
+.table_pos 	{
+	display:inline-table;
+	margin-left:10px;
+	margin-bottom:5px;
+	vertical-align:top;        
+}
+
+.cal_month 	{
+	text-align:center;
+}
+.cal_post	{	
+	background-color:#F00;
+	text-align:center;
+}
+.cal_part	{	
+	background-color:#f6b283;
+	text-align:center;
+}
+.cal_empty	{
+	text-align:center;
+}
+.cal_today	{
+	text-align:center;
+	background-color:#CCC;
+}
+.cal_firstday_post	{
+	background-color:#f00;
+	text-align:center;
+}
+.cal_lastday_post	{	
+	text-align:center;
+}
+
+.cal_days	 {
+	
+}
+.weeknbr {
+	background-color: #eee;
+	text-align:center;
+}
+.cal_title	{
+	text-align:center;
+}
+
+.text_busy	{
+	color:#F00;
+	text-align:center;
+}
+.hidden	{
+	display:none;
+}
+.availcal .table_pos td {
+	text-align:center;
+	width:25px;
+	padding:0px;	
+}
+.availcal .table_pos td.left{
+    text-align: left;
+}
+.availcal .table_pos td.right{
+    text-align: right;
+}
+.textprice {
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.empty_row  {
+  font-size: 0.1em;
+}
