@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.4
+  Version: 0.6
   Author: Jan Maat
   License: GPLv2
  */
@@ -52,7 +52,7 @@ function AvailabilityBooking_install() {
      * 
      * create table Bookings
      */
-    $db_table_name_bookings = $wpdb->prefix . 'AvailabilityBooking_Bookings';
+    $db_table_name_bookings = $wpdb->prefix . 'availabilitybooking_bookings';
     if ($wpdb->get_var("SHOW TABLES LIKE '$db_table_name_bookings'") != $db_table_name_bookings) {
         if (!empty($wpdb->charset))
             $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
@@ -77,7 +77,7 @@ function AvailabilityBooking_install() {
      * Create Table Prices
      * 
      */
-    $db_table_name_prices = $wpdb->prefix . 'AvailabilityBooking_Prices';
+    $db_table_name_prices = $wpdb->prefix . 'availabilitybooking_prices';
     if ($wpdb->get_var("SHOW TABLES LIKE '$db_table_name_prices'") != $db_table_name_prices) {
         if (!empty($wpdb->charset))
             $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
@@ -98,7 +98,7 @@ function AvailabilityBooking_install() {
 
     if ($installed_ver != $AvailabilityBooking_db_version) {
 
-        $db_table_name_bookings = $wpdb->prefix . 'AvailabilityBooking_Bookings';
+        $db_table_name_bookings = $wpdb->prefix . 'availabilitybooking_bookings';
 
         $sql = "CREATE TABLE " . $db_table_name_bookings . " (
 			`id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -115,7 +115,7 @@ function AvailabilityBooking_install() {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta($sql);
-        $db_table_name_prices = $wpdb->prefix . 'AvailabilityBooking_prices';
+        $db_table_name_prices = $wpdb->prefix . 'availabilitybooking_prices';
 
         $sql = "CREATE TABLE " . $db_table_name_prices . " (
 			`id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -130,35 +130,6 @@ function AvailabilityBooking_install() {
         update_option("AvailabilityBooking_db_version", $AvailabilityBooking_db_version);
     }
 }
-
-/*
- * 
- * Plugin uninstall
- */
-
-function AvailabilityBooking_pluginUninstall() {
-
-    global $wpdb;
-    /*
-     * 
-     * Bookings table
-     */
-    $table = $wpdb->prefix . "AvailabilityBooking_Bookings";
-    $wpdb->query("DROP TABLE IF EXISTS $table");
-    /*
-     * 
-     * Prices table
-     */
-    $table = $wpdb->prefix . "AvailabilityBooking_prices";
-    $wpdb->query("DROP TABLE IF EXISTS $table");
-
-//Delete any options thats stored also?
-    delete_option('jm_avail_booking_option_name');
-//delete_option('wp_yourplugin_version');
-    delete_option('AvailabilityBooking_db_version');
-}
-
-register_deactivation_hook(__FILE__, 'AvailabilityBooking_pluginUninstall');
 
 function jm_avail_booking_init() {
     load_plugin_textdomain('jm_avail_booking', false, dirname(plugin_basename(__FILE__)) . '/languages');
