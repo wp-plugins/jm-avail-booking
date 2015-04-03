@@ -50,6 +50,10 @@ List of Rooms: List of bookable items separated by a comma.
 Integration with the plugin ContactForm7 supports a booking form. (screenshot 7) 
 This is achieved by adding the shortcode [booking] to the form part of the ContactForm7 settings (screenshot 8) and the shortcode [booking]  to the message body (screenshot 9) .
 
+Import/Export
+
+With the menu -Import & Export- the bookings and price info can be exported and imported in a new installation. The export file is in xml format.
+
 == Installation ==
 
 1. Upload the entire jm_avail_booking folder to the /wp-content/plugins/directory.
