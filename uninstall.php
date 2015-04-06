@@ -11,13 +11,13 @@ global $wpdb;
  * 
  * Bookings table
  */
-$table = $wpdb->prefix . "availabilitybooking_bookings";
+$table = $wpdb->prefix . "AvailabilityBooking_Bookings";
 $wpdb->query("DROP TABLE IF EXISTS $table");
 /*
  * 
  * Prices table
  */
-$table = $wpdb->prefix . "availabilitybooking_prices";
+$table = $wpdb->prefix . "AvailabilityBooking_Prices";
 $wpdb->query("DROP TABLE IF EXISTS $table");
 
 //Delete any options thats stored also?

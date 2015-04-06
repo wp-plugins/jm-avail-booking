@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.7
+  Version: 0.8
   Author: Jan Maat
   License: GPLv2
  */
@@ -52,7 +52,7 @@ function AvailabilityBooking_install() {
      * 
      * create table Bookings
      */
-    $db_table_name_bookings = $wpdb->prefix . 'availabilitybooking_bookings';
+    $db_table_name_bookings = $wpdb->prefix . 'AvailabilityBooking_Bookings';
     if ($wpdb->get_var("SHOW TABLES LIKE '$db_table_name_bookings'") != $db_table_name_bookings) {
         if (!empty($wpdb->charset))
             $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
@@ -77,7 +77,7 @@ function AvailabilityBooking_install() {
      * Create Table Prices
      * 
      */
-    $db_table_name_prices = $wpdb->prefix . 'availabilitybooking_prices';
+    $db_table_name_prices = $wpdb->prefix . 'AvailabilityBooking_Prices';
     if ($wpdb->get_var("SHOW TABLES LIKE '$db_table_name_prices'") != $db_table_name_prices) {
         if (!empty($wpdb->charset))
             $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
@@ -98,7 +98,7 @@ function AvailabilityBooking_install() {
 
     if ($installed_ver != $AvailabilityBooking_db_version) {
 
-        $db_table_name_bookings = $wpdb->prefix . 'availabilitybooking_bookings';
+        $db_table_name_bookings = $wpdb->prefix . 'AvailabilityBooking_Bookings';
 
         $sql = "CREATE TABLE " . $db_table_name_bookings . " (
 			`id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -115,7 +115,7 @@ function AvailabilityBooking_install() {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta($sql);
-        $db_table_name_prices = $wpdb->prefix . 'availabilitybooking_prices';
+        $db_table_name_prices = $wpdb->prefix . 'AvailabilityBooking_Prices';
 
         $sql = "CREATE TABLE " . $db_table_name_prices . " (
 			`id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,

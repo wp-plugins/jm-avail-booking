@@ -116,17 +116,17 @@ function Avail_booking_Bookings_form_page_handler() {
             if ($item['id'] == 0) {
                 $result = $wpdb->insert($table_name, $item);
                 $item['id'] = $wpdb->insert_id;
-                if ($result) {
-                    $message = __('Item was successfully saved', 'jm_avail_booking');
+                if ($result === false) {
+                    $notice = __('There was an error while saving item', 'jm_avail_booking');                    
                 } else {
-                    $notice = __('There was an error while saving item', 'jm_avail_booking');
+                    $message = __('Item was successfully saved', 'jm_avail_booking');
                 }
             } else {
                 $result = $wpdb->update($table_name, $item, array('id' => $item['id']));
-                if ($result) {
-                    $message = __('Item was successfully updated', 'jm_avail_booking');
-                } else {
+                if ($result === false) {
                     $notice = __('There was an error while updating item', 'jm_avail_booking');
+                } else {
+                    $message = __('Item was successfully updated', 'jm_avail_booking');
                 }
             }
         } else {
