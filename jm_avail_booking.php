@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.8
+  Version: 0.8.1
   Author: Jan Maat
   License: GPLv2
  */
@@ -138,52 +138,44 @@ function jm_avail_booking_init() {
 // Add actions
 add_action('init', 'jm_avail_booking_init');
 
+// Add shortcode
+add_shortcode('availbooking', 'jm_avail_booking_shortcode');
+
 /*
  * Check if shortcode is present on the post to add the bootstrapValitdator
  * 
  */
 
 function jm_avail_booking_check_for_shortcode($posts) {
-    if (empty($posts))
-        return $posts;
+    global $wp_query;
+    $posts = $wp_query->posts;
+    $pattern = get_shortcode_regex();
 
-// false because we have to search through the posts first
-    $found = false;
 
-// search through each post
     foreach ($posts as $post) {
-// check the post content for the short code
-        if (stripos($post->post_content, '[availbooking'))
-// we have found a post with the short code
-            $found = true;
-// stop the search
-        break;
+        if (preg_match_all('/' . $pattern . '/s', $post->post_content, $matches) && array_key_exists(2, $matches) && in_array('availbooking', $matches[2])) {
+            $url = plugin_dir_url(__FILE__);
+            wp_enqueue_style('bootstrapValidator', $url . 'css/bootstrapValidator.min.css');
+            wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
+            wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
+            wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
+            wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
+            wp_localize_script('availbooking', 'availbooking', array(
+                // URL to wp-admin/admin-ajax.php to process the request
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                // generate a nonce with a unique ID "myajax-post-comment-nonce"
+                // so that you can check it later when an AJAX request is sent
+                'security' => wp_create_nonce('availbooking-special-string')
+            ));
+            break;
+        }
     }
 
-    if ($found) {
-// $url contains the path to your plugin folder
-        $url = plugin_dir_url(__FILE__);
-        wp_enqueue_style('bootstrapValidator', $url . 'css/bootstrapValidator.min.css');
-        wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
-        wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
-        wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
-        wp_enqueue_script('availbooking', $url . '/js/availbooking.js', array('jquery'), '0.4.5', true);
-        wp_localize_script('availbooking', 'availbooking', array(
-            // URL to wp-admin/admin-ajax.php to process the request
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            // generate a nonce with a unique ID "myajax-post-comment-nonce"
-            // so that you can check it later when an AJAX request is sent
-            'security' => wp_create_nonce('availbooking-special-string')
-        ));
-    }
-    return $posts;
+   
 }
 
 // perform the check when the_posts() function is called
-add_action('the_posts', 'jm_avail_booking_check_for_shortcode');
-
-// Add shortcode
-add_shortcode('availbooking', 'jm_avail_booking_shortcode');
+add_action('wp', 'jm_avail_booking_check_for_shortcode');
 
 /**
  * 
@@ -288,7 +280,9 @@ function avail_cf7_db_update($cf7) {
         $end_date = $date->format('Y-m-d');
         $options = get_option('jm_avail_booking_option_name');
         $status = 1;
-        if (isset($options['status'])) {$status = $options['status'];}
+        if (isset($options['status'])) {
+            $status = $options['status'];
+        }
         $wpdb->insert(
                 $db_table_name_bookings, array(
             'name' => $posted_data['booking'],
