@@ -36,6 +36,7 @@ If (isset($_REQUEST['export'])) {
         foreach ($items as $item) {
             $output .= "\t\t" . '<Booking>' . "\n";
             $output .= "\t\t\t" . '<name>' . $item['name'] . '</name>' . "\n";
+            $output .= "\t\t\t" . '<status>' . $item['status'] . '</status>' . "\n";
             $output .= "\t\t\t" . '<start_date>' . $item['start_date'] . '</start_date>' . "\n";
             $output .= "\t\t\t" . '<end_date>' . $item['end_date'] . '</end_date>' . "\n";
             $output .= "\t\t\t" . '<email>' . $item['email'] . '</email>' . "\n";
