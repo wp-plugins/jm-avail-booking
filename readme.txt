@@ -50,7 +50,11 @@ List of Rooms: List of bookable items separated by a comma.
 Integration with the plugin ContactForm7 supports a booking form. (screenshot 7) 
 This is achieved by adding the shortcode [booking] to the form part of the ContactForm7 settings (screenshot 8) and the shortcode [booking]  to the message body (screenshot 9) .
 The short code [booking] in the form part of contactform7 insert the -SELECT ROOM- field. It also stores the booking info in the database at send.
-In the message it includes the selection. 
+In the message it includes the selection.
+
+The name of the check in field must be start_date e.g [date* start_date] and the name of the check out field must be end_date e.g. [date* end_date]
+
+To set a fixed value instead of drop down in the contact form replace <p>Apartments[booking] </p> with [booking room_name]. The room_name may not contain spaces and comma's
 
 Import/Export
 
@@ -79,6 +83,10 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 9. screenshot-9.png
 
 == Changelog ==
+Version 0.8.3
+
+Option added to have a fixed value instead of drop down in the Contact Form 7
+
 Version 0.8.2
 
 Export status solved

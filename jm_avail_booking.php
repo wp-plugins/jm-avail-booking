@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.8.2
+  Version: 0.8.3
   Author: Jan Maat
   License: GPLv2
  */
@@ -161,17 +161,15 @@ function jm_avail_booking_check_for_shortcode($posts) {
             wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
             wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
             wp_localize_script('availbooking', 'availbooking', array(
-                // URL to wp-admin/admin-ajax.php to process the request
+// URL to wp-admin/admin-ajax.php to process the request
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 // generate a nonce with a unique ID "myajax-post-comment-nonce"
-                // so that you can check it later when an AJAX request is sent
+// so that you can check it later when an AJAX request is sent
                 'security' => wp_create_nonce('availbooking-special-string')
             ));
             break;
         }
     }
-
-   
 }
 
 // perform the check when the_posts() function is called
@@ -213,27 +211,32 @@ if (function_exists('wpcf7_add_shortcode')) {
 
 function wpcf7_booking_shortcode_handler($tag) {
     $html = '<input type="hidden" name="avail_wpcf7" value="booking" />';
-    $options = get_option('jm_avail_booking_option_name');
-    if ($options[rooms] != "") {
-        $rooms_values = explode(",", $options[rooms]);
-        if ($tag[attr] != "") {
-            $rooms_names = explode(",", $tag[attr]);
-        } else {
-            $rooms_names = explode(",", $options[rooms]);
-        }
+    if ($tag['name'] != "") {
+        $html .= '<input type="hidden" name="booking" id="booking" value="'. $tag['name'] .'" />';
     } else {
-        $rooms_names[0] = 'default';
-        $rooms_values[0] = 'default';
-    }
+        $options = get_option('jm_avail_booking_option_name');
+        if ($options[rooms] != "") {
+            $rooms_values = explode(",", $options[rooms]);
+            if ($tag[attr] != "") {
+                $rooms_names = explode(",", $tag[attr]);
+            } else {
+                $rooms_names = explode(",", $options[rooms]);
+            }
+        } else {
+            $rooms_names[0] = 'default';
+            $rooms_values[0] = 'default';
+        }
 
 
-    $html .= '<select name="booking" id="booking" required>';
-    $i = 0;
-    while ($i < count($rooms_values)) {
-        $html .= '<option value="' . $rooms_values[$i] . '" ' . $selected . '>' . $rooms_names[$i] . '</option>';
-        $i ++;
+        $html .= '<select name="booking" id="booking" required>';
+        $i = 0;
+        while ($i < count($rooms_values)) {
+            $html .= '<option value="' . $rooms_values[$i] . '" ' . $selected . '>' . $rooms_names[$i] . '</option>';
+            $i ++;
+        }
+        $html .= '</select>';
     }
-    $html .= '</select>';
+    
     return $html;
 }
 
