@@ -53,6 +53,7 @@ The short code [booking] in the form part of contactform7 insert the -SELECT ROO
 In the message it includes the selection.
 
 The name of the check in field must be start_date e.g [date* start_date] and the name of the check out field must be end_date e.g. [date* end_date]
+Other items to store in the database are: email, phone, country and language. These must be named as: [email* your-email], [text* your-phone], [select* your-country ....] and [select* your-language "nl""en"]
 
 To set a fixed value instead of drop down in the contact form replace <p>Apartments[booking] </p> with [booking room_name]. The room_name may not contain spaces and comma's
 
