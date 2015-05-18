@@ -14,7 +14,8 @@ jQuery(document).ready(function($) {
                 instance: instance,
                 name: name
             };
-            $('#data-update'+ instance).load(availbooking.ajaxurl, data, function() {
+            $.get(availbooking.ajaxurl, data, function(response) {
+                $('#data-update'+ instance).html(response);
                 $('#availcalheader'+ instance).text($('#table_info'+ instance).data('monthname'))
         }
         );
@@ -34,7 +35,8 @@ jQuery(document).ready(function($) {
                 instance: instance,
                 name: name
             };
-            $('#data-update'+ instance).load(availbooking.ajaxurl, data, function() {                
+            $.get(availbooking.ajaxurl, data, function(response) {
+                $('#data-update'+ instance).html(response);                
                 $('#availcalheader'+ instance).text($('#table_info'+ instance).data('monthname'))
         }
         );

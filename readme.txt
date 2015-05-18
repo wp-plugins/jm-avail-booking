@@ -19,6 +19,8 @@ The admin interface supports a database for the bookings and a database for the 
 
 The bookings database contains all bookings for all bookable items (screenshot-2) With the menu -Add new booking- or with the -Add new booking- button a form is availabile to enter a new booking. (screenshot-3)
 
+With an option the display of the calendar is swichted between one monht and a block of three months (see screenshot-6 and screenshot-10)
+
 Name: select the name from the list of available bookable items (see settings)
 Status:
 - Requested (Booking filled by the Booking Form, displayed as free)
@@ -84,6 +86,10 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 9. screenshot-9.png
 
 == Changelog ==
+Version 0.9.0
+
+Display option with 3 month block added
+
 Version 0.8.3
 
 Option added to have a fixed value instead of drop down in the Contact Form 7

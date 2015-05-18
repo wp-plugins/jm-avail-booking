@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.8.3
+  Version: 0.9.0
   Author: Jan Maat
   License: GPLv2
  */
@@ -155,11 +155,16 @@ function jm_avail_booking_check_for_shortcode($posts) {
     foreach ($posts as $post) {
         if (preg_match_all('/' . $pattern . '/s', $post->post_content, $matches) && array_key_exists(2, $matches) && in_array('availbooking', $matches[2])) {
             $url = plugin_dir_url(__FILE__);
+            $options = get_option('jm_avail_booking_option_name');
             wp_enqueue_style('bootstrapValidator', $url . 'css/bootstrapValidator.min.css');
             wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
             wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
             wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
-            wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
+            if ($options['threemonths'] == 0) {
+                wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
+            } else {
+                wp_enqueue_script('availbooking', $url . 'js/availbooking_3.js', array('jquery'), '0.4.5', true);
+            }
             wp_localize_script('availbooking', 'availbooking', array(
 // URL to wp-admin/admin-ajax.php to process the request
                 'ajaxurl' => admin_url('admin-ajax.php'),
@@ -188,13 +193,27 @@ function jm_avail_booking_shortcode($atts) {
     } else {
         $name = 'default';
     }
-
+    $options = get_option('jm_avail_booking_option_name');
     $calendar = new AvailabilityCalendar();
     $year = $calendar->currentYear;
     $month = $calendar->currentMonth;
-    $renderCalendar = $calendar->getHeader($year, $month, $instance);
-    $renderCalendar .= $calendar->getDays($year, $month, $instance, $name);
-    $renderCalendar .= $calendar->closeTable();
+    if ($options['threemonths'] == 0) {
+        $renderCalendar = $calendar->getHeader($year, $month, $instance,'');
+        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name,'');
+        $renderCalendar .= $calendar->closeTable('all');
+    } else {
+        $renderCalendar = $calendar->getHeader($year, $month, $instance, '0');
+        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name, '0');
+        $renderCalendar .= $calendar->closeTable('0');
+        $month++;
+        $renderCalendar .= $calendar->getHeader($year, $month, $instance, '1');
+        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name, '1');
+        $renderCalendar .= $calendar->closeTable('1');
+        $month++;
+        $renderCalendar .= $calendar->getHeader($year, $month, $instance, '2');
+        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name, '2');
+        $renderCalendar .= $calendar->closeTable('2');
+    }
     return $renderCalendar;
 }
 
@@ -212,7 +231,7 @@ if (function_exists('wpcf7_add_shortcode')) {
 function wpcf7_booking_shortcode_handler($tag) {
     $html = '<input type="hidden" name="avail_wpcf7" value="booking" />';
     if ($tag['name'] != "") {
-        $html .= '<input type="hidden" name="booking" id="booking" value="'. $tag['name'] .'" />';
+        $html .= '<input type="hidden" name="booking" id="booking" value="' . $tag['name'] . '" />';
     } else {
         $options = get_option('jm_avail_booking_option_name');
         if ($options[rooms] != "") {
@@ -236,7 +255,7 @@ function wpcf7_booking_shortcode_handler($tag) {
         }
         $html .= '</select>';
     }
-    
+
     return $html;
 }
 

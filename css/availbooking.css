@@ -3,11 +3,12 @@
     Author     : Jan
 */
 
-
+.availcal   {
+    width: 100%;
+}
 
 .table_pos 	{
-	display:inline-table;
-	margin-left:10px;
+	display:inline-table;	
 	margin-bottom:5px;
 	vertical-align:top;        
 }
@@ -57,9 +58,8 @@
 	display:none;
 }
 .availcal .table_pos td {
-	text-align:center;
-	width:25px;
-	padding:0px;	
+	text-align:center;	
+	padding:5px;	
 }
 .availcal .table_pos td.left{
     text-align: left;
@@ -67,8 +67,11 @@
 .availcal .table_pos td.right{
     text-align: right;
 }
+.cel_hidden{
+    visibility: hidden;
+}
 .textprice {
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: bold;
 }
 .empty_row  {

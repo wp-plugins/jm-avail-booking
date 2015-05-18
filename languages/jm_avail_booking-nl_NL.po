@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Availability Calendar & Booking v0.3\n"
+"Project-Id-Version: WP Availability Calendar & Booking v0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-02-28 17:12:53+0000\n"
+"PO-Revision-Date: 2015-05-14 16:06:17+0000\n"
 "Last-Translator: admin <jenj.maat@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -57,26 +57,26 @@ msgstr "Items verwijderd: %d"
 msgid "Add new booking"
 msgstr "Nieuwe boeking"
 
-#: avail_booking_bookings_page.php:120
-#: avail_booking_prices_page.php:104
+#: avail_booking_bookings_page.php:122
+#: avail_booking_prices_page.php:106
 #@ jm_avail_booking
 msgid "Item was successfully saved"
 msgstr "Item is opgeslagen"
 
-#: avail_booking_bookings_page.php:122
-#: avail_booking_prices_page.php:106
+#: avail_booking_bookings_page.php:120
+#: avail_booking_prices_page.php:104
 #@ jm_avail_booking
 msgid "There was an error while saving item"
 msgstr "Een fout tijdens het opslaan."
 
-#: avail_booking_bookings_page.php:127
-#: avail_booking_prices_page.php:112
+#: avail_booking_bookings_page.php:129
+#: avail_booking_prices_page.php:114
 #@ jm_avail_booking
 msgid "Item was successfully updated"
 msgstr "Item geupdate"
 
-#: avail_booking_bookings_page.php:129
-#: avail_booking_prices_page.php:114
+#: avail_booking_bookings_page.php:127
+#: avail_booking_prices_page.php:112
 #@ jm_avail_booking
 msgid "There was an error while updating item"
 msgstr "Een fout tijdens het updaten"
@@ -121,14 +121,14 @@ msgid "Status"
 msgstr "Status"
 
 #: avail_booking_bookings_page.php:224
-#: includes/avail_booking_settingspage.php:90
+#: includes/avail_booking_settingspage.php:92
 #: includes/availabilitybooking_bookings_list_table.php:151
 #@ jm_avail_booking
 msgid "Requested"
 msgstr "Aangevraagd"
 
 #: avail_booking_bookings_page.php:226
-#: includes/avail_booking_settingspage.php:92
+#: includes/avail_booking_settingspage.php:94
 #: includes/availabilitybooking_bookings_list_table.php:153
 #@ jm_avail_booking
 msgid "Booked"
@@ -200,22 +200,22 @@ msgstr "WP Availability Calendar & Booking Instellingen"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: includes/avail_booking_settingspage.php:70
+#: includes/avail_booking_settingspage.php:72
 #@ jm_avail_booking
 msgid "Show Weeknumbers"
 msgstr "Toon weeknummers"
 
-#: includes/avail_booking_settingspage.php:82
+#: includes/avail_booking_settingspage.php:84
 #@ jm_avail_booking
 msgid "List of Rooms"
 msgstr "Lijst met kamers"
 
-#: includes/avail_booking_settingspage.php:131
+#: includes/avail_booking_settingspage.php:135
 #@ jm_avail_booking
 msgid "Check the following settings:"
 msgstr "Controleer de volgende instellingen"
 
-#: includes/avail_booking_settingspage.php:159
+#: includes/avail_booking_settingspage.php:166
 #@ jm_avail_booking
 msgid "Give the available room names separated by a comma. If empty the name default is used"
 msgstr "Vul de namen van de kamers in gescheiden door comma's (zonder spaties). Als niets is ingevuld wordt de naam  default gebruikt"
@@ -412,7 +412,7 @@ msgstr "Datum is verplicht"
 msgid "Price is required"
 msgstr "Prijs is verplicht"
 
-#: includes/avail_booking_settingspage.php:73
+#: includes/avail_booking_settingspage.php:75
 #@ jm_avail_booking
 msgid "Show Prices"
 msgstr "Toon prijzen"
@@ -427,7 +427,7 @@ msgstr "Boeking gegevens"
 msgid "Price Data"
 msgstr "Prijs gegevens"
 
-#: includes/avail_booking_settingspage.php:79
+#: includes/avail_booking_settingspage.php:81
 #@ jm_avail_booking
 msgid "Minimum Nights"
 msgstr "Minimum overnachtingen"
@@ -505,7 +505,7 @@ msgstr "Verlopen"
 msgid "Active"
 msgstr "Actief"
 
-#: includes/avail_booking_settingspage.php:66
+#: includes/avail_booking_settingspage.php:68
 #@ jm_avail_booking
 msgid "Display Last Day as free"
 msgstr "Laatste dag weergeven als vrij."
@@ -516,59 +516,59 @@ msgid "Item not saved. Date already used"
 msgstr "Deze prijsinstelling is niet opgeslagen omdat de datum bij deze kamer al is gebruikt."
 
 #: avail_booking_import_export.php:5
-#: avail_booking_import_export.php:57
+#: avail_booking_import_export.php:123
 #@ jm_avail_booking
 msgid "Import & Export"
 msgstr "Import & Export"
 
-#: avail_booking_import_export.php:58
+#: avail_booking_import_export.php:124
 #@ jm_avail_booking
 msgid "Export"
 msgstr "Export"
 
-#: avail_booking_import_export.php:59
+#: avail_booking_import_export.php:125
 #@ jm_avail_booking
 msgid "If you click the button below WordPress will create an XML file with all booikings and prices and save this file to your computer."
 msgstr "ALs je op de onderstaande knop klikt genereert WordPress een XML file met alle boekingen en prijzen en download dit naar je PC"
 
-#: avail_booking_import_export.php:61
+#: avail_booking_import_export.php:127
 #@ jm_avail_booking
 msgid "Once downloaded  you can use this file in the Import function on another WordPress installation to import the contents of the WP Availability Calendar and Bookings."
 msgstr "Als de file op je PC is opgeslagen kun je deze file importeren met de import functie van Avalilabity Calendar & Bookings ."
 
-#: avail_booking_import_export.php:65
+#: avail_booking_import_export.php:131
 #@ jm_avail_booking
 msgid "Download"
 msgstr "Download"
 
-#: includes/avail_booking_settingspage.php:76
+#: includes/avail_booking_settingspage.php:78
 #@ jm_avail_booking
 msgid "Use Dollar sign"
 msgstr "Gebruik dollar teken"
 
-#: includes/avail_booking_settingspage.php:136
-#@ default
+#: includes/avail_booking_settingspage.php:143
+#@ jm_avail_booking
 msgid "Checkout and new Checkin on same day"
-msgstr ""
+msgstr "Check Out en een nieuwe Check in op dezelfde dag"
 
-#: includes/avail_booking_settingspage.php:149
-#@ default
+#: includes/avail_booking_settingspage.php:156
+#@ jm_avail_booking
 msgid "Default Euro"
-msgstr ""
+msgstr "Default  is Euro"
 
 #: avail_booking_bookings_page.php:225
-#: includes/avail_booking_settingspage.php:91
+#: includes/avail_booking_settingspage.php:93
 #: includes/availabilitybooking_bookings_list_table.php:152
 #@ jm_avail_booking
 msgid "Reserved"
-msgstr "Gereserveerd"
+msgstr "Gereserveerdhttp://localhost/wp/wp-content/plugins/codestyling-localization/images/close.gif"
 
-#: includes/avail_booking_settingspage.php:94
+#: includes/avail_booking_settingspage.php:96
 #@ jm_avail_booking
 msgid "Select value of status after a booking with ContactForm 7."
 msgstr "Selecteer de status na een booking via ContactForm 7"
 
-#: includes/avail_booking_settingspage.php:176
+#: includes/avail_booking_settingspage.php:183
 #@ default
 msgid "label"
 msgstr ""
@@ -578,8 +578,48 @@ msgstr ""
 msgid "reserved"
 msgstr "gereserveerd"
 
-#: includes/avail_booking_settingspage.php:85
+#: includes/avail_booking_settingspage.php:87
 #@ jm_avail_booking
 msgid "Status booking with ContactForm7"
 msgstr "Status boeking met ContactForm7"
+
+#: avail_booking_import_export.php:74
+#@ jm_avail_booking
+msgid "No file selected"
+msgstr "Geen bestand geselecteerd"
+
+#: avail_booking_import_export.php:79
+#@ jm_avail_booking
+msgid "XML failure"
+msgstr "XML fout"
+
+#: avail_booking_import_export.php:95
+#@ jm_avail_booking
+msgid "Data imported"
+msgstr "Data geimporteerd"
+
+#: avail_booking_import_export.php:134
+#@ jm_avail_booking
+msgid "Import"
+msgstr "Import"
+
+#: avail_booking_import_export.php:137
+#@ jm_avail_booking
+msgid "Upload file:"
+msgstr "Upload bestand"
+
+#: avail_booking_import_export.php:139
+#@ jm_avail_booking
+msgid "Upload"
+msgstr "Upload"
+
+#: includes/avail_booking_settingspage.php:65
+#@ jm_avail_booking
+msgid "Calendar Display"
+msgstr "Kalender weergave"
+
+#: includes/avail_booking_settingspage.php:139
+#@ jm_avail_booking
+msgid "Display a block of three months - one month default"
+msgstr "Toon een blok van 3 maanden - 1 maand is de default"
 

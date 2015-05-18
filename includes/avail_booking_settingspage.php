@@ -61,7 +61,9 @@ class Avail_Booking_SettingsPage {
                 array($this, 'print_section_info'), // Callback
                 'jm_avail_booking-setting-admin' // Page
         );
-
+        add_settings_field(
+                'threemonths', ' ' . __('Calendar Display', 'jm_avail_booking') . '', array($this, 'threemonths_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+        );
         add_settings_field(
                 'firstlast', ' ' . __('Display Last Day as free', 'jm_avail_booking') . '', array($this, 'firstlast_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
         );
@@ -102,6 +104,8 @@ class Avail_Booking_SettingsPage {
      */
     public function sanitize($input) {
         $new_input = array();
+        if (isset($input['threemonths']))
+            $new_input['threemonths'] = absint($input['threemonths']);
 
         if (isset($input['firstlast']))
             $new_input['firstlast'] = absint($input['firstlast']);
@@ -130,10 +134,13 @@ class Avail_Booking_SettingsPage {
     public function print_section_info() {
         _e('Check the following settings:', 'jm_avail_booking');
     }
-
+    public function threemonths_callback() {
+        echo '<input type="checkbox" id="threemonths" name="jm_avail_booking_option_name[threemonths]" value="1" ' . checked(1, $this->options['threemonths'], false) . ' />';
+        _e('Display a block of three months - one month default', 'jm_avail_booking');
+    }
     public function firstlast_callback() {
         echo '<input type="checkbox" id="firstlast" name="jm_avail_booking_option_name[firstlast]" value="1" ' . checked(1, $this->options['firstlast'], false) . ' />';
-        _e('Checkout and new Checkin on same day');
+        _e('Checkout and new Checkin on same day', 'jm_avail_booking');
     }
 
     public function weeknumbers_callback() {
@@ -146,7 +153,7 @@ class Avail_Booking_SettingsPage {
 
     public function usedollar_callback() {
         echo '<input type="checkbox" id="usedollar" name="jm_avail_booking_option_name[usedollar]" value="1" ' . checked(1, $this->options['usedollar'], false) . ' />';
-        _e('Default Euro');
+        _e('Default Euro', 'jm_avail_booking');
     }
 
     public function min_nights_callback() {
