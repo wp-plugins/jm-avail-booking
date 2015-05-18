@@ -84,6 +84,7 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 7. screenshot-7.png
 8. screenshot-8.png
 9. screenshot-9.png
+10. screenshot-10.png
 
 == Changelog ==
 Version 0.9.0
