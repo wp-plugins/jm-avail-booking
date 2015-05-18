@@ -257,7 +257,7 @@ class AvailabilityCalendar {
     public function closeTable($display) {
 
         $calendar = "</tbody></table></div>";
-        if (($display == '') or ( $display == 2)) {
+        if (($display == '') OR ( $display == 2)) {
             $calendar .= "</div>";
         }
         return $calendar;

@@ -200,7 +200,7 @@ function jm_avail_booking_shortcode($atts) {
     if ($options['threemonths'] == 0) {
         $renderCalendar = $calendar->getHeader($year, $month, $instance,'');
         $renderCalendar .= $calendar->getDays($year, $month, $instance, $name,'');
-        $renderCalendar .= $calendar->closeTable('all');
+        $renderCalendar .= $calendar->closeTable('');
     } else {
         $renderCalendar = $calendar->getHeader($year, $month, $instance, '0');
         $renderCalendar .= $calendar->getDays($year, $month, $instance, $name, '0');
