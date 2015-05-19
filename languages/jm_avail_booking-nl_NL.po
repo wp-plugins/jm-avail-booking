@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Availability Calendar & Booking v0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-05-14 16:06:17+0000\n"
+"PO-Revision-Date: 2015-05-19 15:43:57+0000\n"
 "Last-Translator: admin <jenj.maat@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -561,7 +561,7 @@ msgstr "Default  is Euro"
 #: includes/availabilitybooking_bookings_list_table.php:152
 #@ jm_avail_booking
 msgid "Reserved"
-msgstr "Gereserveerdhttp://localhost/wp/wp-content/plugins/codestyling-localization/images/close.gif"
+msgstr "Gereserveerd"
 
 #: includes/avail_booking_settingspage.php:96
 #@ jm_avail_booking
