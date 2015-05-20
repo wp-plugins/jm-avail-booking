@@ -59,11 +59,18 @@ This is achieved by adding the shortcode [booking] to the form part of the Conta
 The fields added to the database are:
 
 Your Name - [text* your-name]
+
+
 Your Email - [email* your-email]
+
 Checkin Date - [date* start_date]
+
 Checkout Date - [date* end_date]
+
 Telephone Number - [text* your-phone]
+
 Country - [select* your-country ....]
+
 Correspondence language - [select* your-language "nl""en"]
  
 These fields may be extended as possible in ContactForm7, e.g. a datepicker may be added.
@@ -79,10 +86,12 @@ In this case replace the [booking] in the form part of the contactform settings 
 
 3. There are multiple calendar pages (one for each room) with a generic bookings form page. In this case there is only one contactform needed as in situation 2 there is a contactform for each calendar page.
 -The permalinks settings must be Post name.
--Set the  - Title of page with booking form – field in the settings (screenshot 6) to the name of the page with the generic bookings form.
--Insert  into the page with the calendar  a link to the  page with the generic form, add to the link part the name of the room. e.g. <a href="http://localhost/wp/contact/voorkamer">Click here to book</a>
 
-In this example -contact- is the title of the page with the form and – voorkamer- the name of the room.
+-Set the  - Title of page with booking form -field in the settings (screenshot 6) to the name of the page with the generic bookings form.
+
+-Insert  into the page with the calendar  a link to the  page with the generic form, add to the link part the name of the room. e.g. &lt;a href="http://localhost/wp/contact/voorkamer"&gt;Click here to book&lt;/a&gt;
+
+In this example -contact- is the title of the page with the form and -voorkamer- the name of the room.
 
 Import/Export
 
