@@ -23,30 +23,49 @@ With an option the display of the calendar is swichted between one monht and a b
 
 Name: select the name from the list of available bookable items (see settings)
 Status:
+
 - Requested (Booking filled by the Booking Form, displayed as free)
+
 - Reserved (Booking accepted and displayed as busy but waiting for payment)
+
 - Booked (Booking accepted and displayed as busy)
+
 - Rejected (Displayed as free)
+
 Check in
+
 Check out
+
 Email: The email address of the applicant.
+
 Phone number: The phone number of the applicant.
+
 Country: The country of the applicant.
+
 Language: The preferred language of the applicant.
 
 The price database contains the price definitions.(screenshot-4)
 The example of screenshot 4 reads as, the price of the -Voorkamer- is euro 65,00 from 2015-01-05 till 2015-05-21 and is euro 75,00 from 2015-05-22 on.
 With the menu -Add new price- or with the -Add new price- button a form is availabile to enter a new price. (screenshot 5)
+
 Name: select the name from the list of available bookable items (see settings)
+
 Date: Start date of the new price.
+
 Price: The new price.
 
 The menu Settings->WP Availability Calendar & Bookings Settings opens the settings form. (screenshot 6)
+
 Display Last Day as free: If set a new check in after a check out on the same day is allowed.
+
 Show Weeknumbers: If set show weeknumbers in the calendar (screenshot 1).
+
 Show Prices: If set show the price info in the calendar.
+
 Use Dollar sign: If set use the dollar sign and currency format in the price info.
+
 Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
+
 List of Rooms: List of bookable items separated by a comma.
 
 Integration with ContactForm7.
