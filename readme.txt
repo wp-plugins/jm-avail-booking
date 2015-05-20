@@ -49,15 +49,40 @@ Use Dollar sign: If set use the dollar sign and currency format in the price inf
 Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
 List of Rooms: List of bookable items separated by a comma.
 
-Integration with the plugin ContactForm7 supports a booking form. (screenshot 7) 
-This is achieved by adding the shortcode [booking] to the form part of the ContactForm7 settings (screenshot 8) and the shortcode [booking]  to the message body (screenshot 9) .
-The short code [booking] in the form part of contactform7 insert the -SELECT ROOM- field. It also stores the booking info in the database at send.
-In the message it includes the selection.
+Integration with ContactForm7.
 
-The name of the check in field must be start_date e.g [date* start_date] and the name of the check out field must be end_date e.g. [date* end_date]
-Other items to store in the database are: email, phone, country and language. These must be named as: [email* your-email], [text* your-phone], [select* your-country ....] and [select* your-language "nl""en"]
+The integrations with ContactForm7 not only sends the email with the booking information but also stores it directly into the WP Availability Calendar & Booking database.
+It also adds the name of the calendar item (accommodation) to bookings form. (screenshot 7)
 
-To set a fixed value instead of drop down in the contact form replace <p>Apartments[booking] </p> with [booking room_name]. The room_name may not contain spaces and comma's
+This is achieved by adding the shortcode [booking] to the form part of the ContactForm7 settings (screenshot 8) and the shortcode [booking]  into the message body (screenshot 9) .
+
+The fields added to the database are:
+
+Your Name - [text* your-name]
+Your Email - [email* your-email]
+Checkin Date - [date* start_date]
+Checkout Date - [date* end_date]
+Telephone Number - [text* your-phone]
+Country - [select* your-country ....]
+Correspondence language - [select* your-language "nl""en"]
+ 
+These fields may be extended as possible in ContactForm7, e.g. a datepicker may be added.
+
+There are three possible combinations of calendar and ContactForm7.
+
+1. multiple calendars on one page with on that page the bookings form.
+This is the default and needs no further actions as the above mentioned insert of the [booking] shortcodes.
+
+2. one calendar with a for that calendar specific bookings form on the same page. So you need for each page a separate contactform.
+In this case replace the [booking] in the form part of the contactform settings with 
+[booking room_name]
+
+3. There are multiple calendar pages (one for each room) with a generic bookings form page. In this case there is only one contactform needed as in situation 2 there is a contactform for each calendar page.
+-The permalinks settings must be Post name.
+-Set the  - Title of page with booking form – field in the settings (screenshot 6) to the name of the page with the generic bookings form.
+-Insert  into the page with the calendar  a link to the  page with the generic form, add to the link part the name of the room. e.g. <a href="http://localhost/wp/contact/voorkamer">Click here to book</a>
+
+In this example -contact- is the title of the page with the form and – voorkamer- the name of the room.
 
 Import/Export
 
@@ -87,6 +112,12 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.0
+
+Generic booking form (ContactForm7) added
+Readme.txt updated
+
+
 Version 0.9.0
 
 Display option with 3 month block added

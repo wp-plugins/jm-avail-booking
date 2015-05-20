@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 0.9.0
+  Version: 1.0.0
   Author: Jan Maat
   License: GPLv2
  */
@@ -198,8 +198,8 @@ function jm_avail_booking_shortcode($atts) {
     $year = $calendar->currentYear;
     $month = $calendar->currentMonth;
     if ($options['threemonths'] == 0) {
-        $renderCalendar = $calendar->getHeader($year, $month, $instance,'');
-        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name,'');
+        $renderCalendar = $calendar->getHeader($year, $month, $instance, '');
+        $renderCalendar .= $calendar->getDays($year, $month, $instance, $name, '');
         $renderCalendar .= $calendar->closeTable('');
     } else {
         $renderCalendar = $calendar->getHeader($year, $month, $instance, '0');
@@ -223,15 +223,39 @@ function jm_avail_booking_shortcode($atts) {
  * 
  */
 
+function add_query_vars($aVars) {
+    $aVars[] = "acc_name"; // represents the name of the accomodation as shown in the URL
+    return $aVars;
+}
+
+// hook add_query_vars function into query_vars
+add_filter('query_vars', 'add_query_vars');
+
+function add_rewrite_rules($aRules) {
+    $options = get_option('jm_avail_booking_option_name');
+    $acc_name = strtolower($options['booking_form']);
+    $aNewRules = array('' . $acc_name . '/([^/]+)/?$' => 'index.php?pagename=' . $acc_name . '&acc_name=$matches[1]');
+    $aRules = $aNewRules + $aRules;
+    return $aRules;
+}
+
+// hook add_rewrite_rules function into rewrite_rules_array
+add_filter('rewrite_rules_array', 'add_rewrite_rules');
+
 if (function_exists('wpcf7_add_shortcode')) {
     wpcf7_add_shortcode('booking', 'wpcf7_booking_shortcode_handler', true);
     add_action('wpcf7_before_send_mail', 'avail_cf7_db_update');
 }
 
 function wpcf7_booking_shortcode_handler($tag) {
+    global $wp_query;
     $html = '<input type="hidden" name="avail_wpcf7" value="booking" />';
+    $acc_name = urldecode($wp_query->query_vars['acc_name']);
     if ($tag['name'] != "") {
         $html .= '<input type="hidden" name="booking" id="booking" value="' . $tag['name'] . '" />';
+    } elseif (isset($wp_query->query_vars['acc_name']) AND ($wp_query->query_vars['acc_name'] != '') ) {
+        $acc_name = urldecode($wp_query->query_vars['acc_name']);
+        $html .= '<input type="hidden" name="booking" id="booking" value="' . $acc_name . '" />';
     } else {
         $options = get_option('jm_avail_booking_option_name');
         if ($options[rooms] != "") {
@@ -245,8 +269,6 @@ function wpcf7_booking_shortcode_handler($tag) {
             $rooms_names[0] = 'default';
             $rooms_values[0] = 'default';
         }
-
-
         $html .= '<select name="booking" id="booking" required>';
         $i = 0;
         while ($i < count($rooms_values)) {

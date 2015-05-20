@@ -48,7 +48,7 @@ class Avail_Booking_SettingsPage {
      * Register and add settings
      */
     public function page_init() {
-        $option_name = $this->options ;
+        $option_name = $this->options;
         register_setting(
                 'jm_avail_booking_option_group', // Option group
                 'jm_avail_booking_option_name', // Option name
@@ -95,6 +95,14 @@ class Avail_Booking_SettingsPage {
             ),
             'label' => __('Select value of status after a booking with ContactForm 7.', 'jm_avail_booking'),
         ));
+        add_settings_field(
+                'booking_form', ' ' . __('Title of page with booking form', 'jm_avail_booking') . '', array($this, 'booking_form_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'booking_form',
+            'class' => '',
+            'value' => '',
+            'label' => __('Select page with the single booking form. Open also the permalinks settings and click on save!! ', 'jm_avail_booking'),
+        ));
     }
 
     /**
@@ -125,6 +133,8 @@ class Avail_Booking_SettingsPage {
             $new_input['rooms'] = sanitize_text_field($input['rooms']);
         if (isset($input['status']))
             $new_input['status'] = sanitize_text_field($input['status']);
+        if (isset($input['booking_form']))
+            $new_input['booking_form'] = sanitize_text_field($input['booking_form']);
         return $new_input;
     }
 
@@ -134,10 +144,12 @@ class Avail_Booking_SettingsPage {
     public function print_section_info() {
         _e('Check the following settings:', 'jm_avail_booking');
     }
+
     public function threemonths_callback() {
         echo '<input type="checkbox" id="threemonths" name="jm_avail_booking_option_name[threemonths]" value="1" ' . checked(1, $this->options['threemonths'], false) . ' />';
         _e('Display a block of three months - one month default', 'jm_avail_booking');
     }
+
     public function firstlast_callback() {
         echo '<input type="checkbox" id="firstlast" name="jm_avail_booking_option_name[firstlast]" value="1" ' . checked(1, $this->options['firstlast'], false) . ' />';
         _e('Checkout and new Checkin on same day', 'jm_avail_booking');
@@ -182,6 +194,33 @@ class Avail_Booking_SettingsPage {
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
+        <?php
+    }
+
+    public function booking_form_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>"> 
+            <option selected="selected"  value=""><?php echo esc_attr(__('No generic form', 'jm_avail_booking')); ?></option> 
+            <?php
+            $selected_page = $options[$args['id']];
+            $pages = get_pages();
+            foreach ($pages as $page) {
+                $option = '<option value="' . $page->post_title . '" ';
+                $option .= ( $page->post_title == $selected_page ) ? 'selected="selected"' : '';
+                $option .= '>';
+                $option .= $page->post_title;
+                $option .= '</option>';
+                echo $option;
+            }
+            ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
         <?php
     }
 

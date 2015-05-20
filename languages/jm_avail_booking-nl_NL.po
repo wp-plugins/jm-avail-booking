@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Availability Calendar & Booking v0.9.0\n"
+"Project-Id-Version: WP Availability Calendar & Booking v1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-05-19 15:43:57+0000\n"
+"PO-Revision-Date: 2015-05-20 17:11:41+0000\n"
 "Last-Translator: admin <jenj.maat@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -210,12 +210,12 @@ msgstr "Toon weeknummers"
 msgid "List of Rooms"
 msgstr "Lijst met kamers"
 
-#: includes/avail_booking_settingspage.php:135
+#: includes/avail_booking_settingspage.php:145
 #@ jm_avail_booking
 msgid "Check the following settings:"
 msgstr "Controleer de volgende instellingen"
 
-#: includes/avail_booking_settingspage.php:166
+#: includes/avail_booking_settingspage.php:178
 #@ jm_avail_booking
 msgid "Give the available room names separated by a comma. If empty the name default is used"
 msgstr "Vul de namen van de kamers in gescheiden door comma's (zonder spaties). Als niets is ingevuld wordt de naam  default gebruikt"
@@ -228,7 +228,7 @@ msgstr "aangevraagd"
 
 #: includes/availabilitybooking_bookings_list_table.php:39
 #: includes/availabilitybooking_bookings_list_table.php:237
-#: includes/availabilitycalendar.php:70
+#: includes/availabilitycalendar.php:248
 #@ jm_avail_booking
 msgid "booked"
 msgstr "geboekt"
@@ -326,48 +326,48 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Su"
 msgstr "zo"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Mo"
 msgstr "ma"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Tu"
 msgstr "di"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "We"
 msgstr "wo"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Th"
 msgstr "do"
 
-#: includes/availabilitycalendar.php:53
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:62
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Fr"
 msgstr "vr"
 
-#: includes/availabilitycalendar.php:53
+#: includes/availabilitycalendar.php:62
 #@ jm_avail_booking
 msgid "Za"
 msgstr "za"
 
-#: includes/availabilitycalendar.php:55
+#: includes/availabilitycalendar.php:64
 #@ jm_avail_booking
 msgid "Sa"
 msgstr "za"
@@ -546,12 +546,12 @@ msgstr "Download"
 msgid "Use Dollar sign"
 msgstr "Gebruik dollar teken"
 
-#: includes/avail_booking_settingspage.php:143
+#: includes/avail_booking_settingspage.php:155
 #@ jm_avail_booking
 msgid "Checkout and new Checkin on same day"
 msgstr "Check Out en een nieuwe Check in op dezelfde dag"
 
-#: includes/avail_booking_settingspage.php:156
+#: includes/avail_booking_settingspage.php:168
 #@ jm_avail_booking
 msgid "Default Euro"
 msgstr "Default  is Euro"
@@ -568,7 +568,8 @@ msgstr "Gereserveerd"
 msgid "Select value of status after a booking with ContactForm 7."
 msgstr "Selecteer de status na een booking via ContactForm 7"
 
-#: includes/avail_booking_settingspage.php:183
+#: includes/avail_booking_settingspage.php:195
+#: includes/avail_booking_settingspage.php:223
 #@ default
 msgid "label"
 msgstr ""
@@ -618,8 +619,23 @@ msgstr "Upload"
 msgid "Calendar Display"
 msgstr "Kalender weergave"
 
-#: includes/avail_booking_settingspage.php:139
+#: includes/avail_booking_settingspage.php:150
 #@ jm_avail_booking
 msgid "Display a block of three months - one month default"
 msgstr "Toon een blok van 3 maanden - 1 maand is de default"
+
+#: includes/avail_booking_settingspage.php:99
+#@ jm_avail_booking
+msgid "Title of page with booking form"
+msgstr "Titel van de pagina met het boekings-formulier"
+
+#: includes/avail_booking_settingspage.php:104
+#@ jm_avail_booking
+msgid "Select page with the single booking form. Open also the permalinks settings and click on save!! "
+msgstr "Selecteer de pagina met het gemeenschappelijke boekings-formulier. Open ook de permalinks instellingen en klik op \\\"Wijzigingen opslaan\\\"."
+
+#: includes/avail_booking_settingspage.php:209
+#@ jm_avail_booking
+msgid "No generic form"
+msgstr "Geen algemeen formulier"
 
