@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.1
+  Version: 1.0.2
   Author: Jan Maat
   License: GPLv2
  */

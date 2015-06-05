@@ -140,6 +140,10 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.2
+
+Added default values settings for status, country and language to be used in a new booking.
+
 Version 1.0.0
 
 Generic booking form (ContactForm7) added

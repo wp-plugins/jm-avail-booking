@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Availability Calendar & Booking v1.0.0\n"
+"Project-Id-Version: WP Availability Calendar & Booking v1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-05-20 17:11:41+0000\n"
+"PO-Revision-Date: 2015-06-05 14:44:06+0000\n"
 "Last-Translator: admin <jenj.maat@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -122,6 +122,7 @@ msgstr "Status"
 
 #: avail_booking_bookings_page.php:224
 #: includes/avail_booking_settingspage.php:92
+#: includes/avail_booking_settingspage.php:112
 #: includes/availabilitybooking_bookings_list_table.php:151
 #@ jm_avail_booking
 msgid "Requested"
@@ -129,12 +130,14 @@ msgstr "Aangevraagd"
 
 #: avail_booking_bookings_page.php:226
 #: includes/avail_booking_settingspage.php:94
+#: includes/avail_booking_settingspage.php:114
 #: includes/availabilitybooking_bookings_list_table.php:153
 #@ jm_avail_booking
 msgid "Booked"
 msgstr "Geboeked"
 
 #: avail_booking_bookings_page.php:227
+#: includes/avail_booking_settingspage.php:115
 #: includes/availabilitybooking_bookings_list_table.php:154
 #@ jm_avail_booking
 msgid "Rejected"
@@ -210,12 +213,12 @@ msgstr "Toon weeknummers"
 msgid "List of Rooms"
 msgstr "Lijst met kamers"
 
-#: includes/avail_booking_settingspage.php:145
+#: includes/avail_booking_settingspage.php:179
 #@ jm_avail_booking
 msgid "Check the following settings:"
 msgstr "Controleer de volgende instellingen"
 
-#: includes/avail_booking_settingspage.php:178
+#: includes/avail_booking_settingspage.php:212
 #@ jm_avail_booking
 msgid "Give the available room names separated by a comma. If empty the name default is used"
 msgstr "Vul de namen van de kamers in gescheiden door comma's (zonder spaties). Als niets is ingevuld wordt de naam  default gebruikt"
@@ -546,18 +549,19 @@ msgstr "Download"
 msgid "Use Dollar sign"
 msgstr "Gebruik dollar teken"
 
-#: includes/avail_booking_settingspage.php:155
+#: includes/avail_booking_settingspage.php:189
 #@ jm_avail_booking
 msgid "Checkout and new Checkin on same day"
 msgstr "Check Out en een nieuwe Check in op dezelfde dag"
 
-#: includes/avail_booking_settingspage.php:168
+#: includes/avail_booking_settingspage.php:202
 #@ jm_avail_booking
 msgid "Default Euro"
 msgstr "Default  is Euro"
 
 #: avail_booking_bookings_page.php:225
 #: includes/avail_booking_settingspage.php:93
+#: includes/avail_booking_settingspage.php:113
 #: includes/availabilitybooking_bookings_list_table.php:152
 #@ jm_avail_booking
 msgid "Reserved"
@@ -568,8 +572,10 @@ msgstr "Gereserveerd"
 msgid "Select value of status after a booking with ContactForm 7."
 msgstr "Selecteer de status na een booking via ContactForm 7"
 
-#: includes/avail_booking_settingspage.php:195
-#: includes/avail_booking_settingspage.php:223
+#: includes/avail_booking_settingspage.php:229
+#: includes/avail_booking_settingspage.php:257
+#: includes/avail_booking_settingspage.php:274
+#: includes/avail_booking_settingspage.php:308
 #@ default
 msgid "label"
 msgstr ""
@@ -619,7 +625,7 @@ msgstr "Upload"
 msgid "Calendar Display"
 msgstr "Kalender weergave"
 
-#: includes/avail_booking_settingspage.php:150
+#: includes/avail_booking_settingspage.php:184
 #@ jm_avail_booking
 msgid "Display a block of three months - one month default"
 msgstr "Toon een blok van 3 maanden - 1 maand is de default"
@@ -634,8 +640,48 @@ msgstr "Titel van de pagina met het boekings-formulier"
 msgid "Select page with the single booking form. Open also the permalinks settings and click on save!! "
 msgstr "Selecteer de pagina met het gemeenschappelijke boekings-formulier. Open ook de permalinks instellingen en klik op \\\"Wijzigingen opslaan\\\"."
 
-#: includes/avail_booking_settingspage.php:209
+#: includes/avail_booking_settingspage.php:243
 #@ jm_avail_booking
 msgid "No generic form"
 msgstr "Geen algemeen formulier"
+
+#: includes/avail_booking_settingspage.php:107
+#@ jm_avail_booking
+msgid "Default Status"
+msgstr "Default Status"
+
+#: includes/avail_booking_settingspage.php:117
+#@ jm_avail_booking
+msgid "Select the default status for new bookings"
+msgstr "Selecteer de default status voor nieuwe boekingen"
+
+#: includes/avail_booking_settingspage.php:120
+#@ jm_avail_booking
+msgid "Default Country"
+msgstr "Default Land"
+
+#: includes/avail_booking_settingspage.php:123
+#@ jm_avail_booking
+msgid "Default Language"
+msgstr "Default Taal"
+
+#: includes/avail_booking_settingspage.php:128
+#@ jm_avail_booking
+msgid "NL"
+msgstr "NL"
+
+#: includes/avail_booking_settingspage.php:129
+#@ jm_avail_booking
+msgid "EN"
+msgstr "EN"
+
+#: includes/avail_booking_settingspage.php:131
+#@ jm_avail_booking
+msgid "Select the default language for new bookings"
+msgstr "Selecteer de default taal voor nieuwe boekingen"
+
+#: includes/avail_booking_settingspage.php:293
+#@ jm_avail_booking
+msgid "Select  the default country for new bookings"
+msgstr "Selecteer het default land voor nieuwe boekingen"
 

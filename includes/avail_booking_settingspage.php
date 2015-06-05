@@ -103,6 +103,33 @@ class Avail_Booking_SettingsPage {
             'value' => '',
             'label' => __('Select page with the single booking form. Open also the permalinks settings and click on save!! ', 'jm_avail_booking'),
         ));
+        add_settings_field(
+                'default_status', ' ' . __('Default Status', 'jm_avail_booking') . '', array($this, 'default_status_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'default_status',
+            'class' => '',
+            'value' => array(
+                '1' => __('Requested', 'jm_avail_booking'),
+                '2' => __('Reserved', 'jm_avail_booking'),
+                '3' => __('Booked', 'jm_avail_booking'),
+                '4' => __('Rejected', 'jm_avail_booking'),
+            ),
+            'label' => __('Select the default status for new bookings', 'jm_avail_booking'),
+        ));
+        add_settings_field(
+                'default_country', ' ' . __('Default Country', 'jm_avail_booking') . '', array($this, 'default_country_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+        );
+        add_settings_field(
+                'default_language', ' ' . __('Default Language', 'jm_avail_booking') . '', array($this, 'default_language_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'default_language',
+            'class' => '',
+            'value' => array(
+                'nl' => __('NL', 'jm_avail_booking'),
+                'en' => __('EN', 'jm_avail_booking'),                
+            ),
+            'label' => __('Select the default language for new bookings', 'jm_avail_booking'),
+        ));
     }
 
     /**
@@ -135,6 +162,13 @@ class Avail_Booking_SettingsPage {
             $new_input['status'] = sanitize_text_field($input['status']);
         if (isset($input['booking_form']))
             $new_input['booking_form'] = sanitize_text_field($input['booking_form']);
+        if (isset($input['default_status']))
+            $new_input['default_status'] = sanitize_text_field($input['default_status']);
+        if (isset($input['default_country']))
+            $new_input['default_country'] = sanitize_text_field($input['default_country']);
+        if (isset($input['default_language']))
+            $new_input['default_language'] = sanitize_text_field($input['default_language']);
+
         return $new_input;
     }
 
@@ -221,6 +255,58 @@ class Avail_Booking_SettingsPage {
             ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+        <?php
+    }
+
+    public function default_status_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+            <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
+        <?php
+    }
+
+    public function default_country_callback() {
+        $countries = array("Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Arctic Ocean", "Aruba", "Ashmore and Cartier Islands", "Atlantic Ocean", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Baker Island", "Bangladesh", "Barbados", "Bassas da India", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Bouvet Island", "Brazil", "British Virgin Islands", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Clipperton Island", "Cocos Islands", "Colombia", "Comoros", "Cook Islands", "Coral Sea Islands", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Deutschland", "Democratic Republic of the Congo", "Djibouti", "Deutschland", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Europa Island", "Falkland Islands (Islas Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "French Guiana", "French Polynesia", "French Southern and Antarctic Lands", "Gabon", "Gambia", "Gaza Strip", "Georgia", "Ghana", "Gibraltar", "Glorioso Islands", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guernsey", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard Island and McDonald Islands", "Honduras", "Hong Kong", "Howland Island", "Hungary", "Iceland", "India", "Indian Ocean", "Indonesia", "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Jan Mayen", "Japan", "Jarvis Island", "Jersey", "Johnston Atoll", "Jordan", "Juan de Nova Island", "Kazakhstan", "Kenya", "Kingman Reef", "Kiribati", "Kerguelen Archipelago", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia", "Midway Islands", "Moldova", "Monaco", "Mongolia", "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Navassa Island", "Nepal", "Nederland", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "North Korea", "North Sea", "Northern Mariana Islands", "Norway", "Oman", "Pacific Ocean", "Pakistan", "Palau", "Palmyra Atoll", "Panama", "Papua New Guinea", "Paracel Islands", "Paraguay", "Peru", "Philippines", "Pitcairn Islands", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Republic of the Congo", "Romania", "Russia", "Rwanda", "Saint Helena", "Saint Kitts and Nevis", "Saint Lucia", "Saint Pierre and Miquelon", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "South Korea", "Spain", "Spratly Islands", "Sri Lanka", "Sudan", "Suriname", "Svalbard", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tromelin Island", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "USA", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Viet Nam", "Virgin Islands", "Wake Island", "Wallis and Futuna", "West Bank", "Western Sahara", "Yemen", "Yugoslavia", "Zambia", "Zimbabwe");
+        ?>
+        <select name="jm_avail_booking_option_name[default_country]" id="jm_avail_booking_option_name[default_country]" required>
+            <?php
+            foreach ($countries as $country) {
+                ?>                       
+
+                <option value="<?php echo $country ?>" <?php if ($this->options['default_country'] == $country) echo 'selected="selected"'; ?>><?php echo $country ?></option>
+                <?php
+            }
+            ?>                        
+        </select>
+        <?php
+        _e('Select  the default country for new bookings', 'jm_avail_booking');
+    }
+    public function default_language_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+            <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
         <?php
     }
 
