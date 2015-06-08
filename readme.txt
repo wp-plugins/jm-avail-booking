@@ -56,17 +56,27 @@ Price: The new price.
 
 The menu Settings->WP Availability Calendar & Bookings Settings opens the settings form. (screenshot 6)
 
+Calendar display: Show one month or a block of three months
+
+Used in widget:
+In an early stage of the page rendering the plugin checks the presents of the short code in one of more of the post on that page.
+If present the required css and javascript files are added to the page.
+As far as I know wp does not offer such an early hook for sidebar/widgets. The default text widget does not support shortcodes so a third party is required. Relying on these third party implementations is difficult therefore I added an option to the settings – Used in widget- .
+With this option set the required css and javascript files ar added to all pages. I think this is justifiable because widget are mostly shown on many pages.
+
 Display Last Day as free: If set a new check in after a check out on the same day is allowed.
 
 Show Weeknumbers: If set show weeknumbers in the calendar (screenshot 1).
 
 Show Prices: If set show the price info in the calendar.
 
-Use Dollar sign: If set use the dollar sign and currency format in the price info.
+Default currency: Select the default currency format in the price info.
 
 Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
 
 List of Rooms: List of bookable items separated by a comma.
+
+
 
 Integration with ContactForm7.
 
@@ -140,6 +150,9 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.2
+Added currency selection and support for use in a custom text widget
+
 Version 1.0.2
 
 Added default values settings for status, country and language to be used in a new booking.

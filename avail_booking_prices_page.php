@@ -73,7 +73,7 @@ function Avail_booking_Prices_form_page_handler() {
         'name' => 'default',
         'date' => '',
         'price' => '',
-    );
+    );   
 
 // here we are verifying does this request is post back and have correct nonce
     if (wp_verify_nonce($_REQUEST['nonce'], basename(__FILE__))) {
@@ -85,11 +85,12 @@ function Avail_booking_Prices_form_page_handler() {
         if ($item_valid === true) {
             $options = get_option('jm_avail_booking_option_name');
             $temp = preg_replace('/[^0-9\.\,]/', "", $item['price']);
-            if ($options['usedollar'] == 1) {
-                $item['price'] = "$ " . number_format($temp, 2, '.', '');
-            } else {
-                $item['price'] = "€ " . number_format($temp, 2, ',', '');
-            }
+            $currencies = AvailabilityBookingFunctions::currency();
+            $format = $currencies[$options['default_currency']]['format'];
+            $seperator = $currencies[$options['default_currency']]['separator'];
+            $temp = number_format($temp, 2, $seperator , '');
+            $item['price'] = sprintf($format,$temp);
+            
             if ($item['id'] == 0) {
                 $name = $item['name'];
                 $date = $item['date'];
@@ -217,7 +218,7 @@ function Avail_booking_Prices_form_meta_box_handler($item) {
                 </th>
                 <td>
                     <input id="price" name="price" type="text" style="width: 45%" value="<?php echo esc_attr($item['price']) ?>"
-                           size="50" class="code" placeholder="<?php echo ($options['usedollar'] == 1 ? "$ xx.xx" : "€ xx,xx") ?>" required>
+                           size="50" class="code"  required><br><?php _e(' On save the price input will be formatted conform the settings', 'jm_avail_booking') ?>
                 </td>
             </tr>
 

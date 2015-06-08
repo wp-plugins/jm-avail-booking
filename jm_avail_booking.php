@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.2
+  Version: 1.0.3
   Author: Jan Maat
   License: GPLv2
  */
@@ -150,12 +150,10 @@ function jm_avail_booking_check_for_shortcode($posts) {
     global $wp_query;
     $posts = $wp_query->posts;
     $pattern = get_shortcode_regex();
-
-
+    $options = get_option('jm_avail_booking_option_name');
     foreach ($posts as $post) {
-        if (preg_match_all('/' . $pattern . '/s', $post->post_content, $matches) && array_key_exists(2, $matches) && in_array('availbooking', $matches[2])) {
+        if (has_shortcode($post->post_content, 'availbooking') OR ( isset($options['in_widget']) AND ( $options['in_widget'] == 1))) {
             $url = plugin_dir_url(__FILE__);
-            $options = get_option('jm_avail_booking_option_name');
             wp_enqueue_style('bootstrapValidator', $url . 'css/bootstrapValidator.min.css');
             wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
             wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
@@ -253,7 +251,7 @@ function wpcf7_booking_shortcode_handler($tag) {
     $acc_name = urldecode($wp_query->query_vars['acc_name']);
     if ($tag['name'] != "") {
         $html .= '<input type="hidden" name="booking" id="booking" value="' . $tag['name'] . '" />';
-    } elseif (isset($wp_query->query_vars['acc_name']) AND ($wp_query->query_vars['acc_name'] != '') ) {
+    } elseif (isset($wp_query->query_vars['acc_name']) AND ( $wp_query->query_vars['acc_name'] != '')) {
         $acc_name = urldecode($wp_query->query_vars['acc_name']);
         $html .= '<input type="hidden" name="booking" id="booking" value="' . $acc_name . '" />';
     } else {
