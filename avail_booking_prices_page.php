@@ -174,7 +174,9 @@ function Avail_booking_Prices_form_page_handler() {
  */
 function Avail_booking_Prices_form_meta_box_handler($item) {
     $options = get_option('jm_avail_booking_option_name');
-    $room_names = explode(",", $options[rooms]);
+    $room_names= array_map(function($el) {
+        return explode(':', $el);
+    }, explode(',', $options['rooms']));
     ?>
 
     <table  cellspacing="2" cellpadding="5" style="width: 50%;" class="form-table">
@@ -191,10 +193,10 @@ function Avail_booking_Prices_form_meta_box_handler($item) {
                         <?php };
                         foreach ($room_names as $name) {
                             $selected = "";
-                            if ((isset($item['name'])) AND ( $item['name'] == $name)) {
+                            if ((isset($item['name'])) AND ( $item['name'] == $name[0])) {
                                 $selected = 'selected';
                             }
-                            echo '<option value="' . $name . '" ' . $selected . '>' . $name . '</option>';
+                            echo '<option value="' . $name[0] . '" ' . $selected . '>' . $name[0] . '</option>';
                         }
                         ?>
                     </select>

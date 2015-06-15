@@ -85,6 +85,9 @@ class Avail_Booking_SettingsPage {
                 'min_nights', ' ' . __('Minimum Nights', 'jm_avail_booking') . '', array($this, 'min_nights_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
         );
         add_settings_field(
+                'hotel', ' ' . __('Use Small Hotel mode', 'jm_avail_booking') . '', array($this, 'hotel_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+        );
+        add_settings_field(
                 'rooms', ' ' . __('List of Rooms', 'jm_avail_booking') . '', array($this, 'rooms_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
         );
         add_settings_field(
@@ -157,6 +160,8 @@ class Avail_Booking_SettingsPage {
             $new_input['default_currency'] = sanitize_text_field($input['default_currency']);
         if (isset($input['min_nights']))
             $new_input['min_nights'] = absint($input['min_nights']);
+        if (isset($input['hotel']))
+            $new_input['hotel'] = absint($input['hotel']);
         if (isset($input['rooms']))
             $new_input['rooms'] = sanitize_text_field($input['rooms']);
         if (isset($input['status']))
@@ -200,7 +205,6 @@ class Avail_Booking_SettingsPage {
     public function showprices_callback() {
         echo '<input type="checkbox" id="showprices" name="jm_avail_booking_option_name[showprices]" value="1" ' . checked(1, $this->options['showprices'], false) . ' />';
     }
-
     
     public function default_currency_callback() {
         $currencies = AvailabilityBookingFunctions::currency();
@@ -223,11 +227,15 @@ class Avail_Booking_SettingsPage {
     public function min_nights_callback() {
         printf('<input id="min_nights" name="jm_avail_booking_option_name[min_nights]" size="4" type="text" value="%s" />', isset($this->options['min_nights']) ? esc_attr($this->options['min_nights']) : '1');
     }
+    public function hotel_callback() {
+        echo '<input type="checkbox" id="hotel" name="jm_avail_booking_option_name[hotel]" value="1" ' . checked(1, $this->options['hotel'], false) . ' />';
+        _e('Small Hotel mode is a calendar for each room type, default a calendar for each room', 'jm_avail_booking');
+    }
 
     public function rooms_callback() {
         echo '<textarea id="rooms" name="jm_avail_booking_option_name[rooms]" rows="5" cols="50">' . $this->options['rooms'] . '</textarea>';
         echo '<p>';
-        _e('Give the available room names separated by a comma. If empty the name default is used', 'jm_avail_booking');
+        _e('Give the available room names separated by a comma. If empty the name default is used<br>In the default mode: room1,room2<br>In the Small Hotel mode: roomtype1:x,roomtype2:y<br> x is the number of rooms of type 1, y of type 2', 'jm_avail_booking');               
         echo '</p>';
     }
 

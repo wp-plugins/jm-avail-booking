@@ -20,27 +20,12 @@
 	background-color:#F00;
 	text-align:center;
 }
-.cal_part	{	
-	background-color:#f6b283;
-	text-align:center;
-}
 .cal_empty	{
 	text-align:center;
 }
 .cal_today	{
 	text-align:center;
 	background-color:#CCC;
-}
-.cal_firstday_post	{
-	background-color:#f00;
-	text-align:center;
-}
-.cal_lastday_post	{	
-	text-align:center;
-}
-
-.cal_days	 {
-	
 }
 .weeknbr {
 	background-color: #eee;

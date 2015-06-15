@@ -20,13 +20,13 @@ class AvailabilityCalendar {
         list( $currentYear, $currentMonth, $dayofMonth ) = preg_split('([^0-9])', $currentTime);
         $this->currentYear = $currentYear;
         $this->currentMonth = $currentMonth;
-        $this->dayofMonth = $dayofMonth;
-
-        //Get plugin options
+        $this->dayofMonth = $dayofMonth;        //Get plugin options
         $options = get_option('jm_avail_booking_option_name');
         $this->options = $options;
-
         $this->week_firstday = get_option('start_of_week', '1');
+        preg_match_all("/([^,: ]+):([^,: ]+)/", $options['rooms'], $r);
+        $result = array_combine($r[1], $r[2]);
+        $this->numberrooms = $result;
     }
 
     public function getHeader($year, $month, $instance, $display) {
@@ -120,6 +120,14 @@ class AvailabilityCalendar {
         $monthplus = $month + 1;
         $header = $month_name . " - " . $year;
 
+        // Hotel mode check
+
+        If (isset($this->options[hotel])AND $this->options[hotel] == 1) {
+            $counter_limit = $this->numberrooms[$name];
+        } else {
+            $counter_limit = 1;
+        }
+
         //Body part Table
 
         $calendar .= "<tr id=\"table_info$display$instance\" style=\"display: none;\" data-year=\"$year\" data-monthmin=\"$monthmin\" data-monthplus=\"$monthplus\" data-monthname=\"$header\" data-name=\"$name\"></tr><tr>";
@@ -179,45 +187,21 @@ class AvailabilityCalendar {
 
 
             $bookings = $avail_booking_db->get_items($name, $month, $year);
-
+            $room_counter = 0;
             foreach ($bookings as $booking) {
                 if (($linkDate <= $booking['end']) and ( $linkDate >= $booking['start'])) {
-                    $status = 2; //busy
+                    $room_counter++; //busy
                     if (isset($this->options[firstlast])AND $this->options[firstlast] == 1) {
-                        if ($linkDate == $booking['start']) {
-                            $status = 1; // first day
-                        }
-                        if ($linkDate == $booking['end']) {
-                            $status = 3; //last day
-                        }
-                        if (($linkDate == $booking['start']) AND ( $linkDate == $booking['end'])) {
-                            $status = 2; //busy
+                        if ($linkDate == $booking['end'])   {
+                            $room_counter-- ;
                         }
                     }
                 }
             }
-            switch ($status) {
-                case 0:
-                    $class = 'cal_empty';
-                    break;
-                case 1 :
-                    $class = 'cal_firstday_post';
-                    $status = 0;
-                    break;
-                case 2 :
-                    $class = 'cal_post';
-                    $status = 0;
-                    break;
-                case 3 :
-                    $class = 'cal_lastday_post';
-                    $status = 0;
-                    break;
-                case 4:
-                    $class = 'cal_today';
-                    break;
-                default :
-                    $class = 'cal_empty';
-                    $darken = 0;
+            if ($room_counter >= $counter_limit) {
+                $class = 'cal_post';
+            } else {
+                $class = 'cal_empty';
             }
 
             $text_price = '';

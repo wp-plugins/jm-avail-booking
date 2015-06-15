@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.3
+  Version: 1.0.4
   Author: Jan Maat
   License: GPLv2
  */
@@ -257,20 +257,29 @@ function wpcf7_booking_shortcode_handler($tag) {
     } else {
         $options = get_option('jm_avail_booking_option_name');
         if ($options[rooms] != "") {
-            $rooms_values = explode(",", $options[rooms]);
-            if ($tag[attr] != "") {
-                $rooms_names = explode(",", $tag[attr]);
+            //$rooms_values = explode(",", $options[rooms]);
+            $rooms_values = array_map(function($el) {
+                return explode(':', $el);
+            }, explode(',', $options['rooms']));
+            
+            if ($tag[attr] != "") {                
+                $rooms_names = array_map(function($el) {
+                    return explode(':', $el);
+                }, explode(',', $tag[attr]));
             } else {
-                $rooms_names = explode(",", $options[rooms]);
+                //$rooms_names = explode(",", $options[rooms]);
+                $rooms_names = array_map(function($el) {
+                    return explode(':', $el);
+                }, explode(',', $options['rooms']));
             }
         } else {
-            $rooms_names[0] = 'default';
-            $rooms_values[0] = 'default';
+            $rooms_names[0][0] = 'default';
+            $rooms_values[0][0] = 'default';
         }
         $html .= '<select name="booking" id="booking" required>';
         $i = 0;
-        while ($i < count($rooms_values)) {
-            $html .= '<option value="' . $rooms_values[$i] . '" ' . $selected . '>' . $rooms_names[$i] . '</option>';
+        while ($i < count($rooms_names)) {
+            $html .= '<option value="' . $rooms_values[$i][0] . '" ' . $selected . '>' . $rooms_names[$i][0] . '</option>';
             $i ++;
         }
         $html .= '</select>';

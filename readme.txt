@@ -74,7 +74,19 @@ Default currency: Select the default currency format in the price info.
 
 Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
 
-List of Rooms: List of bookable items separated by a comma.
+
+Small Hotel mode: 
+In the default mode there is 1 calendar per room identified by the name of the room as given in the -List of Rooms- parameter.
+
+In the small Hotel moder there is 1 calendar per room type e.g standard room or deluxe room.
+The -List of Rooms- parameter gives in this mode the room type with the number of rooms per type.
+
+List of Rooms: List of bookable items separared by a comma.
+
+Default mode:  room_name_1, room_name_2,room_name_3
+
+Small Hotel mode: room_type_1:x,room_type_2:y,room_type_3:z
+x,y and z are the number of rooms of that type.
 
 
 
@@ -150,7 +162,11 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
-Version 1.0.2
+
+Version 1.0.4
+Small Hotel mode added
+
+Version 1.0.3
 Added currency selection and support for use in a custom text widget
 
 Version 1.0.2
