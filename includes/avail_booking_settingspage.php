@@ -77,7 +77,7 @@ class Avail_Booking_SettingsPage {
         add_settings_field(
                 'showprices', ' ' . __('Show Prices', 'jm_avail_booking') . '', array($this, 'showprices_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
         );
-       
+
         add_settings_field(
                 'default_currency', ' ' . __('Default Currency', 'jm_avail_booking') . '', array($this, 'default_currency_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
         );
@@ -133,7 +133,7 @@ class Avail_Booking_SettingsPage {
             'class' => '',
             'value' => array(
                 'nl' => __('NL', 'jm_avail_booking'),
-                'en' => __('EN', 'jm_avail_booking'),                
+                'en' => __('EN', 'jm_avail_booking'),
             ),
             'label' => __('Select the default language for new bookings', 'jm_avail_booking'),
         ));
@@ -155,7 +155,7 @@ class Avail_Booking_SettingsPage {
         if (isset($input['weeknumbers']))
             $new_input['weeknumbers'] = absint($input['weeknumbers']);
         if (isset($input['showprices']))
-            $new_input['showprices'] = absint($input['showprices']);        
+            $new_input['showprices'] = absint($input['showprices']);
         if (isset($input['default_currency']))
             $new_input['default_currency'] = sanitize_text_field($input['default_currency']);
         if (isset($input['min_nights']))
@@ -189,10 +189,12 @@ class Avail_Booking_SettingsPage {
         echo '<input type="checkbox" id="threemonths" name="jm_avail_booking_option_name[threemonths]" value="1" ' . checked(1, $this->options['threemonths'], false) . ' />';
         _e('Display a block of three months - one month default', 'jm_avail_booking');
     }
+
     public function in_widget_callback() {
         echo '<input type="checkbox" id="in_widget" name="jm_avail_booking_option_name[in_widget]" value="1" ' . checked(1, $this->options['in_widget'], false) . ' />';
         _e('The calendar is also used in a custom text widget', 'jm_avail_booking');
     }
+
     public function firstlast_callback() {
         echo '<input type="checkbox" id="firstlast" name="jm_avail_booking_option_name[firstlast]" value="1" ' . checked(1, $this->options['firstlast'], false) . ' />';
         _e('Checkout and new Checkin on same day', 'jm_avail_booking');
@@ -205,7 +207,7 @@ class Avail_Booking_SettingsPage {
     public function showprices_callback() {
         echo '<input type="checkbox" id="showprices" name="jm_avail_booking_option_name[showprices]" value="1" ' . checked(1, $this->options['showprices'], false) . ' />';
     }
-    
+
     public function default_currency_callback() {
         $currencies = AvailabilityBookingFunctions::currency();
         ?>
@@ -224,9 +226,11 @@ class Avail_Booking_SettingsPage {
         <?php
         _e('Select  the default currency for new prices', 'jm_avail_booking');
     }
+
     public function min_nights_callback() {
         printf('<input id="min_nights" name="jm_avail_booking_option_name[min_nights]" size="4" type="text" value="%s" />', isset($this->options['min_nights']) ? esc_attr($this->options['min_nights']) : '1');
     }
+
     public function hotel_callback() {
         echo '<input type="checkbox" id="hotel" name="jm_avail_booking_option_name[hotel]" value="1" ' . checked(1, $this->options['hotel'], false) . ' />';
         _e('Small Hotel mode is a calendar for each room type, default a calendar for each room', 'jm_avail_booking');
@@ -235,7 +239,7 @@ class Avail_Booking_SettingsPage {
     public function rooms_callback() {
         echo '<textarea id="rooms" name="jm_avail_booking_option_name[rooms]" rows="5" cols="50">' . $this->options['rooms'] . '</textarea>';
         echo '<p>';
-        _e('Give the available room names separated by a comma. If empty the name default is used<br>In the default mode: room1,room2<br>In the Small Hotel mode: roomtype1:x,roomtype2:y<br> x is the number of rooms of type 1, y of type 2', 'jm_avail_booking');               
+        _e('Give the available room names separated by a comma. If empty the name default is used<br>In the default mode: room1,room2<br>In the Small Hotel mode: roomtype1:x,roomtype2:y<br> x is the number of rooms of type 1, y of type 2', 'jm_avail_booking');
         echo '</p>';
     }
 
@@ -248,9 +252,9 @@ class Avail_Booking_SettingsPage {
         ?>
 
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
-            <?php foreach ($args['value'] as $key => $value) : ?>
+        <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -271,10 +275,14 @@ class Avail_Booking_SettingsPage {
             $selected_page = $options[$args['id']];
             $pages = get_pages();
             foreach ($pages as $page) {
-                $option = '<option value="' . $page->post_title . '" ';
-                $option .= ( $page->post_title == $selected_page ) ? 'selected="selected"' : '';
+                $post_id = $page->ID;
+                $title = get_the_title($post_id);
+                $post = get_post($post_id);
+                $slug = $post->post_name;
+                $option = '<option value="' . $slug . '" ';
+                $option .= ( $slug == $selected_page ) ? 'selected="selected"' : '';
                 $option .= '>';
-                $option .= $page->post_title;
+                $option .= $title;
                 $option .= '</option>';
                 echo $option;
             }
@@ -293,9 +301,9 @@ class Avail_Booking_SettingsPage {
         ?>
 
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
-            <?php foreach ($args['value'] as $key => $value) : ?>
+        <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -311,13 +319,14 @@ class Avail_Booking_SettingsPage {
                 ?>                       
 
                 <option value="<?php echo $country ?>" <?php if ($this->options['default_country'] == $country) echo 'selected="selected"'; ?>><?php echo $country ?></option>
-                <?php
-            }
-            ?>                        
+            <?php
+        }
+        ?>                        
         </select>
         <?php
         _e('Select  the default country for new bookings', 'jm_avail_booking');
     }
+
     public function default_language_callback($args) {
         // Set the options-name value to a variable
         $name = $args['options-name'] . '[' . $args['id'] . ']';
@@ -327,9 +336,9 @@ class Avail_Booking_SettingsPage {
         ?>
 
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
-            <?php foreach ($args['value'] as $key => $value) : ?>
+        <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 

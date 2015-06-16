@@ -163,6 +163,10 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 
 == Changelog ==
 
+Version 1.0.5
+Datepicker issue solved
+Link issue to central form solved
+
 Version 1.0.4
 Small Hotel mode added
 

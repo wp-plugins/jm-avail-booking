@@ -33,11 +33,11 @@ function avial_booking_add_option() {
  */
 function Avail_Booking_enqueue_date_picker() {
     wp_enqueue_script(
-            'field-date-js', plugins_url('jm_avail_booking/js/Field_Date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+            'field-date-js', plugins_url('jm-avail-booking/js/Field_Date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
     );
     If (get_bloginfo('language') == 'nl-NL') {
         wp_enqueue_script(
-                'jquery.ui.datepicker-nl.js', plugins_url('jm_avail_booking/js/jquery.ui.datepicker-nl.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+                'jquery.ui.datepicker-nl.js', plugins_url('jm-avail-booking/js/jquery.ui.datepicker-nl.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'),time(), true
         );
     }
     wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
