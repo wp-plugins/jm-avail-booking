@@ -30,6 +30,7 @@
 .weeknbr {
 	background-color: #eee;
 	text-align:center;
+        width: 27px;
 }
 .cal_title	{
 	text-align:center;
@@ -44,7 +45,7 @@
 }
 .availcal .table_pos td {
 	text-align:center;	
-	padding:5px;	
+	padding:2px;	
 }
 .availcal .table_pos td.left{
     text-align: left;

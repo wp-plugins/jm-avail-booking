@@ -109,19 +109,22 @@ class AvailabilityBooking_Prices_List_Table extends WP_List_Table {
     function extra_tablenav($which) {
         if ($which == "top") {
             $options = get_option('jm_avail_booking_option_name');
-            $room_names = explode(",", $options[rooms]);
+            $room_names = array_map(function($el) {
+                return explode(':', $el);
+            }, explode(',', $options['rooms']));
             ?>
             <label><?php _e('Filter Room', 'jm_avail_booking') ?></label>
             <select name="filter_room" id="filter_room" required>
-                <?php If ($options['rooms'] == "" ) { ?>
-                <option value="default" <?php if (isset($_REQUEST['filter_room'])) selected($_REQUEST['filter_room'], 'default'); ?>><?php _e('default', 'jm_avail_booking') ?></option>
-                <?php };
+                <?php If ($options['rooms'] == "") { ?>
+                    <option value="default" <?php if (isset($_REQUEST['filter_room'])) selected($_REQUEST['filter_room'], 'default'); ?>><?php _e('default', 'jm_avail_booking') ?></option>
+                <?php
+                };
                 foreach ($room_names as $name) {
                     $selected = "";
-                    if ((isset($_REQUEST['filter_room'])) AND ( $_REQUEST['filter_room'] == $name)) {
+                    if ((isset($_REQUEST['filter_room'])) AND ( $_REQUEST['filter_room'] == $name[0])) {
                         $selected = 'selected';
                     }
-                    echo '<option value="' . $name . '" ' . $selected . '>' . $name . '</option>';
+                    echo '<option value="' . $name[0] . '" ' . $selected . '>' . $name[0] . '</option>';
                 }
                 ?>
             </select>
@@ -234,14 +237,14 @@ class AvailabilityBooking_Prices_List_Table extends WP_List_Table {
                     $total_items = $wpdb->get_var("SELECT COUNT(id) FROM $table_name WHERE name = '$name'");
                     break;
                 case 'expired':
-                     $this->items = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE
+                    $this->items = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE
                     `name` = '%s' AND date < '%s' 
                       ORDER BY $orderby $order LIMIT %d OFFSET %d
                               ", $name, $last_price_date, $per_page, $offset), ARRAY_A);
                     $total_items = $wpdb->get_var("SELECT COUNT(id) FROM $table_name WHERE name = '$name' AND date < '$last_price_date'");
                     break;
                 case 'active':
-                     $this->items = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE
+                    $this->items = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE
                     `name` = '%s' AND date >= '%s'
                     ORDER BY $orderby $order LIMIT %d OFFSET %d
                             ", $name, $last_price_date, $per_page, $offset), ARRAY_A);
