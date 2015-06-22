@@ -56,42 +56,93 @@ class Avail_Booking_SettingsPage {
         );
 
         add_settings_section(
-                'setting_section_id', // ID
-                '' . __('Settings', 'jm_avail_booking') . '', // Title
-                array($this, 'print_section_info'), // Callback
+                'display_section_id', // ID
+                '' . __('Display', 'jm_avail_booking') . '', // Title
+                array($this, 'print_display_section_info'), // Callback
                 'jm_avail_booking-setting-admin' // Page
         );
         add_settings_field(
-                'threemonths', ' ' . __('Calendar Display', 'jm_avail_booking') . '', array($this, 'threemonths_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'threemonths', ' ' . __('Calendar Display', 'jm_avail_booking') . '', array($this, 'threemonths_callback'), 'jm_avail_booking-setting-admin', 'display_section_id'
         );
         add_settings_field(
-                'in_widget', ' ' . __('Used in Widget', 'jm_avail_booking') . '', array($this, 'in_widget_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'in_widget', ' ' . __('Used in Widget', 'jm_avail_booking') . '', array($this, 'in_widget_callback'), 'jm_avail_booking-setting-admin', 'display_section_id'
         );
         add_settings_field(
-                'firstlast', ' ' . __('Display Last Day as free', 'jm_avail_booking') . '', array($this, 'firstlast_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
-        );
-
-        add_settings_field(
-                'weeknumbers', ' ' . __('Show Weeknumbers', 'jm_avail_booking') . '', array($this, 'weeknumbers_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
-        );
-        add_settings_field(
-                'showprices', ' ' . __('Show Prices', 'jm_avail_booking') . '', array($this, 'showprices_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'firstlast', ' ' . __('Display Last Day as free', 'jm_avail_booking') . '', array($this, 'firstlast_callback'), 'jm_avail_booking-setting-admin', 'display_section_id'
         );
 
         add_settings_field(
-                'default_currency', ' ' . __('Default Currency', 'jm_avail_booking') . '', array($this, 'default_currency_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'weeknumbers', ' ' . __('Show Weeknumbers', 'jm_avail_booking') . '', array($this, 'weeknumbers_callback'), 'jm_avail_booking-setting-admin', 'display_section_id'
         );
         add_settings_field(
-                'min_nights', ' ' . __('Minimum Nights', 'jm_avail_booking') . '', array($this, 'min_nights_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'showprices', ' ' . __('Show Prices', 'jm_avail_booking') . '', array($this, 'showprices_callback'), 'jm_avail_booking-setting-admin', 'display_section_id'
+        );
+        add_settings_section(
+                'booking_section_id', // ID
+                '' . __('Bookings', 'jm_avail_booking') . '', // Title
+                array($this, 'print_bookings_section_info'), // Callback
+                'jm_avail_booking-setting-admin' // Page
+        );
+        
+        add_settings_field(
+                'min_nights', ' ' . __('Minimum Nights', 'jm_avail_booking') . '', array($this, 'min_nights_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
         );
         add_settings_field(
-                'hotel', ' ' . __('Use Small Hotel mode', 'jm_avail_booking') . '', array($this, 'hotel_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'hotel', ' ' . __('Use Small Hotel mode', 'jm_avail_booking') . '', array($this, 'hotel_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
         );
         add_settings_field(
-                'rooms', ' ' . __('List of Rooms', 'jm_avail_booking') . '', array($this, 'rooms_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'rooms', ' ' . __('List of Rooms', 'jm_avail_booking') . '', array($this, 'rooms_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
         );
         add_settings_field(
-                'status', ' ' . __('Status booking with ContactForm7', 'jm_avail_booking') . '', array($this, 'status_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+                'fixed_days', ' ' . __('Use fixed days for checkin and checkout', 'jm_avail_booking') . '', array($this, 'fixed_days_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
+        );
+        add_settings_field(
+                'checkin_day', ' ' . __('Checkin Day', 'jm_avail_booking') . '', array($this, 'checkin_day_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'checkin_day',
+            'class' => '',
+            'value' => array(
+                '0' => __('Su', 'jm_avail_booking'),
+                '1' => __('Mo', 'jm_avail_booking'),
+                '2' => __('Tu', 'jm_avail_booking'),
+                '3' => __('We', 'jm_avail_booking'),
+                '4' => __('Th', 'jm_avail_booking'),
+                '5' => __('Fr', 'jm_avail_booking'),
+                '6' => __('Sa', 'jm_avail_booking'),                
+            ),
+            'label' => __('Select the fixed checkin day', 'jm_avail_booking'),
+        ));
+        add_settings_field(
+                'checkin_exceptions', ' ' . __('Checkin Exceptions', 'jm_avail_booking') . '', array($this, 'checkin_exceptions_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
+        );
+        add_settings_field(
+                'checkout_day', ' ' . __('Checkout Day', 'jm_avail_booking') . '', array($this, 'checkout_day_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'checkout_day',
+            'class' => '',
+            'value' => array(
+                '0' => __('Su', 'jm_avail_booking'),
+                '1' => __('Mo', 'jm_avail_booking'),
+                '2' => __('Tu', 'jm_avail_booking'),
+                '3' => __('We', 'jm_avail_booking'),
+                '4' => __('Th', 'jm_avail_booking'),
+                '5' => __('Fr', 'jm_avail_booking'),
+                '6' => __('Sa', 'jm_avail_booking'),                
+            ),
+            'label' => __('Select the fixed checkout day', 'jm_avail_booking'),
+        ));
+        add_settings_field(
+                'checkout_exceptions', ' ' . __('Checkout Exceptions', 'jm_avail_booking') . '', array($this, 'checkout_exceptions_callback'), 'jm_avail_booking-setting-admin', 'booking_section_id'
+        );
+        // ContactForm 7
+        add_settings_section(
+                'form_section_id', // ID
+                '' . __('ContactForm7', 'jm_avail_booking') . '', // Title
+                array($this, 'print_form_section_info'), // Callback
+                'jm_avail_booking-setting-admin' // Page
+        );
+        add_settings_field(
+                'status', ' ' . __('Status booking with ContactForm7', 'jm_avail_booking') . '', array($this, 'status_callback'), 'jm_avail_booking-setting-admin', 'form_section_id', array(
             'options-name' => 'jm_avail_booking_option_name',
             'id' => 'status',
             'class' => '',
@@ -103,15 +154,25 @@ class Avail_Booking_SettingsPage {
             'label' => __('Select value of status after a booking with ContactForm 7.', 'jm_avail_booking'),
         ));
         add_settings_field(
-                'booking_form', ' ' . __('Title of page with booking form', 'jm_avail_booking') . '', array($this, 'booking_form_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+                'booking_form', ' ' . __('Title of page with booking form', 'jm_avail_booking') . '', array($this, 'booking_form_callback'), 'jm_avail_booking-setting-admin', 'form_section_id', array(
             'options-name' => 'jm_avail_booking_option_name',
             'id' => 'booking_form',
             'class' => '',
             'value' => '',
             'label' => __('Select page with the single booking form. Open also the permalinks settings and click on save!! ', 'jm_avail_booking'),
         ));
+        // Default options
+        add_settings_section(
+                'default_section_id', // ID
+                '' . __('Admin Defaults', 'jm_avail_booking') . '', // Title
+                array($this, 'print_default_section_info'), // Callback
+                'jm_avail_booking-setting-admin' // Page
+        );
         add_settings_field(
-                'default_status', ' ' . __('Default Status', 'jm_avail_booking') . '', array($this, 'default_status_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+                'default_currency', ' ' . __('Default Currency', 'jm_avail_booking') . '', array($this, 'default_currency_callback'), 'jm_avail_booking-setting-admin', 'default_section_id'
+        );
+        add_settings_field(
+                'default_status', ' ' . __('Default Status', 'jm_avail_booking') . '', array($this, 'default_status_callback'), 'jm_avail_booking-setting-admin', 'default_section_id', array(
             'options-name' => 'jm_avail_booking_option_name',
             'id' => 'default_status',
             'class' => '',
@@ -124,10 +185,10 @@ class Avail_Booking_SettingsPage {
             'label' => __('Select the default status for new bookings', 'jm_avail_booking'),
         ));
         add_settings_field(
-                'default_country', ' ' . __('Default Country', 'jm_avail_booking') . '', array($this, 'default_country_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id'
+                'default_country', ' ' . __('Default Country', 'jm_avail_booking') . '', array($this, 'default_country_callback'), 'jm_avail_booking-setting-admin', 'default_section_id'
         );
         add_settings_field(
-                'default_language', ' ' . __('Default Language', 'jm_avail_booking') . '', array($this, 'default_language_callback'), 'jm_avail_booking-setting-admin', 'setting_section_id', array(
+                'default_language', ' ' . __('Default Language', 'jm_avail_booking') . '', array($this, 'default_language_callback'), 'jm_avail_booking-setting-admin', 'default_section_id', array(
             'options-name' => 'jm_avail_booking_option_name',
             'id' => 'default_language',
             'class' => '',
@@ -137,6 +198,7 @@ class Avail_Booking_SettingsPage {
             ),
             'label' => __('Select the default language for new bookings', 'jm_avail_booking'),
         ));
+        
     }
 
     /**
@@ -146,6 +208,7 @@ class Avail_Booking_SettingsPage {
      */
     public function sanitize($input) {
         $new_input = array();
+        //Display
         if (isset($input['threemonths']))
             $new_input['threemonths'] = absint($input['threemonths']);
         if (isset($input['in_widget']))
@@ -156,24 +219,38 @@ class Avail_Booking_SettingsPage {
             $new_input['weeknumbers'] = absint($input['weeknumbers']);
         if (isset($input['showprices']))
             $new_input['showprices'] = absint($input['showprices']);
-        if (isset($input['default_currency']))
-            $new_input['default_currency'] = sanitize_text_field($input['default_currency']);
+        //Bookings        
         if (isset($input['min_nights']))
             $new_input['min_nights'] = absint($input['min_nights']);
         if (isset($input['hotel']))
             $new_input['hotel'] = absint($input['hotel']);
         if (isset($input['rooms']))
             $new_input['rooms'] = sanitize_text_field($input['rooms']);
+        if (isset($input['fixed_days']))
+            $new_input['fixed_days'] = absint($input['fixed_days']);
+        if (isset($input['checkin_day']))
+            $new_input['checkin_day'] = sanitize_text_field($input['checkin_day']);
+        if (isset($input['checkin_exceptions']))
+            $new_input['checkin_exceptions'] = sanitize_text_field($input['checkin_exceptions']);
+         if (isset($input['checkout_day']))
+            $new_input['checkout_day'] = sanitize_text_field($input['checkout_day']);
+        if (isset($input['checkout_exceptions']))
+            $new_input['checkout_exceptions'] = sanitize_text_field($input['checkout_exceptions']);
+        //ContactForm7
         if (isset($input['status']))
             $new_input['status'] = sanitize_text_field($input['status']);
         if (isset($input['booking_form']))
             $new_input['booking_form'] = sanitize_text_field($input['booking_form']);
+        //Defaults
+        if (isset($input['default_currency']))
+            $new_input['default_currency'] = sanitize_text_field($input['default_currency']);
         if (isset($input['default_status']))
             $new_input['default_status'] = sanitize_text_field($input['default_status']);
         if (isset($input['default_country']))
             $new_input['default_country'] = sanitize_text_field($input['default_country']);
         if (isset($input['default_language']))
             $new_input['default_language'] = sanitize_text_field($input['default_language']);
+        
 
         return $new_input;
     }
@@ -181,10 +258,9 @@ class Avail_Booking_SettingsPage {
     /**
      * Print the Section text
      */
-    public function print_section_info() {
-        _e('Check the following settings:', 'jm_avail_booking');
+    public function print_display_section_info() {
+        _e('This section controls how and where the calendar is displayed', 'jm_avail_booking');
     }
-
     public function threemonths_callback() {
         echo '<input type="checkbox" id="threemonths" name="jm_avail_booking_option_name[threemonths]" value="1" ' . checked(1, $this->options['threemonths'], false) . ' />';
         _e('Display a block of three months - one month default', 'jm_avail_booking');
@@ -207,42 +283,77 @@ class Avail_Booking_SettingsPage {
     public function showprices_callback() {
         echo '<input type="checkbox" id="showprices" name="jm_avail_booking_option_name[showprices]" value="1" ' . checked(1, $this->options['showprices'], false) . ' />';
     }
-
-    public function default_currency_callback() {
-        $currencies = AvailabilityBookingFunctions::currency();
-        ?>
-        <select name="jm_avail_booking_option_name[default_currency]" id="jm_avail_booking_option_name[default_currency]" required>
-            <?php
-            foreach ($currencies as $key => $currency) {
-                $test = $key;
-                $test2 = $currency;
-                ?>                       
-
-                <option value="<?php echo $key ?>" <?php if ($this->options['default_currency'] == $key) echo 'selected="selected"'; ?>><?php echo $currency['label'] ?></option>
-                <?php
-            }
-            ?>                        
-        </select>
-        <?php
-        _e('Select  the default currency for new prices', 'jm_avail_booking');
+    // Booking section
+    public function print_bookings_section_info() {
+        _e('This section controls when a room may be booked', 'jm_avail_booking');
     }
-
     public function min_nights_callback() {
         printf('<input id="min_nights" name="jm_avail_booking_option_name[min_nights]" size="4" type="text" value="%s" />', isset($this->options['min_nights']) ? esc_attr($this->options['min_nights']) : '1');
     }
-
     public function hotel_callback() {
         echo '<input type="checkbox" id="hotel" name="jm_avail_booking_option_name[hotel]" value="1" ' . checked(1, $this->options['hotel'], false) . ' />';
         _e('Small Hotel mode is a calendar for each room type, default a calendar for each room', 'jm_avail_booking');
     }
-
     public function rooms_callback() {
         echo '<textarea id="rooms" name="jm_avail_booking_option_name[rooms]" rows="5" cols="50">' . $this->options['rooms'] . '</textarea>';
         echo '<p>';
         _e('Give the available room names separated by a comma. If empty the name default is used<br>In the default mode: room1,room2<br>In the Small Hotel mode: roomtype1:x,roomtype2:y<br> x is the number of rooms of type 1, y of type 2', 'jm_avail_booking');
         echo '</p>';
     }
+    public function fixed_days_callback() {
+        echo '<input type="checkbox" id="fixed_days" name="jm_avail_booking_option_name[fixed_days]" value="1" ' . checked(1, $this->options['fixed_days'], false) . ' />';
+        _e('Fixed days for Checkin and  Checkout ', 'jm_avail_booking');
+    }
+    public function checkin_day_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
 
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+        <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+        <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
+        <?php
+    }
+    public function checkin_exceptions_callback() {
+        echo '<textarea id="checkin_exceptions" name="jm_avail_booking_option_name[checkin_exceptions]" rows="5" cols="50">' . $this->options['checkin_exceptions'] . '</textarea>';
+        echo '<p>';
+        _e('Give the checkin exceptions as 2015-07-01:2015-07- 03,datex:datey <br> 2015-07-01 is replaced by 2015-07-03', 'jm_avail_booking');
+       
+    }
+    public function checkout_day_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+        <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+        <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
+        <?php
+    }
+    public function checkout_exceptions_callback() {
+        echo '<textarea id="checkout_exceptions" name="jm_avail_booking_option_name[checkout_exceptions]" rows="5" cols="50">' . $this->options['checkout_exceptions'] . '</textarea>';
+        echo '<p>';
+        _e('Give the checkout exceptions as 2015-07-08:2015-07- 12,datex:datey <br> 2015-07-08 is replaced by 2015-07-12', 'jm_avail_booking');
+       
+    }
+    // ContactForm 7
+    public function print_form_section_info() {
+        _e('This section controls the interaction with ContactForm 7', 'jm_avail_booking');
+    }
     public function status_callback($args) {
         // Set the options-name value to a variable
         $name = $args['options-name'] . '[' . $args['id'] . ']';
@@ -260,7 +371,6 @@ class Avail_Booking_SettingsPage {
 
         <?php
     }
-
     public function booking_form_callback($args) {
         // Set the options-name value to a variable
         $name = $args['options-name'] . '[' . $args['id'] . ']';
@@ -291,7 +401,28 @@ class Avail_Booking_SettingsPage {
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
         <?php
     }
+    // Default options
+    public function print_default_section_info() {
+        _e('This section controls the admin default for new bookings', 'jm_avail_booking');
+    }
+    public function default_currency_callback() {
+        $currencies = AvailabilityBookingFunctions::currency();
+        ?>
+        <select name="jm_avail_booking_option_name[default_currency]" id="jm_avail_booking_option_name[default_currency]" required>
+            <?php
+            foreach ($currencies as $key => $currency) {
+                $test = $key;
+                $test2 = $currency;
+                ?>                       
 
+                <option value="<?php echo $key ?>" <?php if ($this->options['default_currency'] == $key) echo 'selected="selected"'; ?>><?php echo $currency['label'] ?></option>
+                <?php
+            }
+            ?>                        
+        </select>
+        <?php
+        _e('Select  the default currency for new prices', 'jm_avail_booking');
+    }
     public function default_status_callback($args) {
         // Set the options-name value to a variable
         $name = $args['options-name'] . '[' . $args['id'] . ']';
@@ -344,5 +475,5 @@ class Avail_Booking_SettingsPage {
 
         <?php
     }
-
+    
 }

@@ -61,7 +61,7 @@ Calendar display: Show one month or a block of three months
 Used in widget:
 In an early stage of the page rendering the plugin checks the presents of the short code in one of more of the post on that page.
 If present the required css and javascript files are added to the page.
-As far as I know wp does not offer such an early hook for sidebar/widgets. The default text widget does not support shortcodes so a third party is required. Relying on these third party implementations is difficult therefore I added an option to the settings – Used in widget- .
+As far as I know wp does not offer such an early hook for sidebar/widgets. The default text widget does not support shortcodes so a third party is required. Relying on these third party implementations is difficult therefore I added an option to the settings  -Used in widget- .
 With this option set the required css and javascript files ar added to all pages. I think this is justifiable because widget are mostly shown on many pages.
 
 Display Last Day as free: If set a new check in after a check out on the same day is allowed.
@@ -70,7 +70,7 @@ Show Weeknumbers: If set show weeknumbers in the calendar (screenshot 1).
 
 Show Prices: If set show the price info in the calendar.
 
-Default currency: Select the default currency format in the price info.
+
 
 Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
 
@@ -88,7 +88,9 @@ Default mode:  room_name_1, room_name_2,room_name_3
 Small Hotel mode: room_type_1:x,room_type_2:y,room_type_3:z
 x,y and z are the number of rooms of that type.
 
-
+Use fixed days for checkin and checkout. For the checkin and the checkout a fixed weekday can be selected. 
+Exceptions can be set by combinations of two dates as 2015-07-25:2015-07-24,date-x:date-y. 
+2015-07-24 replaces 2015-07-25, as for date-y and date-x.
 
 Integration with ContactForm7.
 
@@ -104,9 +106,9 @@ Your Name - [text* your-name]
 
 Your Email - [email* your-email]
 
-Checkin Date - [date* start_date]
+Checkin Date - [date* start_date id:start_date date-format:dd-mm-yy first-day:1 min-date:0 change-month change-year]
 
-Checkout Date - [date* end_date]
+Checkout Date - [date* end_date id:end_date date-format:dd-mm-yy first-day:1 min-date:0 change-month change-year]
 
 Telephone Number - [text* your-phone]
 
@@ -133,6 +135,8 @@ In this case replace the [booking] in the form part of the contactform settings 
 -Insert  into the page with the calendar  a link to the  page with the generic form, add to the link part the name of the room. e.g. &lt;a href="http://localhost/wp/contact/voorkamer"&gt;Click here to book&lt;/a&gt;
 
 In this example -contact- is the title of the page with the form and -voorkamer- the name of the room.
+
+Default currency: Select the default currency format in the price info.
 
 Import/Export
 
@@ -162,6 +166,8 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.6
+Fixed checkin/checkout days with exceptions added.
 
 Version 1.0.5
 Datepicker issue solved

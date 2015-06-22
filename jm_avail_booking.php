@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.5
+  Version: 1.0.6
   Author: Jan Maat
   License: GPLv2
  */
@@ -261,8 +261,8 @@ function wpcf7_booking_shortcode_handler($tag) {
             $rooms_values = array_map(function($el) {
                 return explode(':', $el);
             }, explode(',', $options['rooms']));
-            
-            if ($tag[attr] != "") {                
+
+            if ($tag[attr] != "") {
                 $rooms_names = array_map(function($el) {
                     return explode(':', $el);
                 }, explode(',', $tag[attr]));
@@ -295,20 +295,112 @@ function wpcf7_booking_shortcode_handler($tag) {
 
 function calendar_js() {
     $options = get_option('jm_avail_booking_option_name');
-    ?>
-    <script>
-        jQuery(function ($) {
-            var start = $('input[name="start_date"]');
-            var end = $('input[name="end_date"]');
 
-            start.on('change', function () {
-                var start_date = $(this).datepicker('getDate');
-                start_date.setDate(start_date.getDate() + <?php echo $options['min_nights']; ?>);
-                end.datepicker('option', 'minDate', start_date);
+    If ((isset($options['fixed_days'])) AND ( $options['fixed_days'] == 1)) {
+        $disable_checkin_date = '" "';
+        $allow_checkin_date = '" "';
+        $disable_checkout_date = '" "';
+        $allow_checkout_date = '" "';
+        preg_match_all("/([^,: ]+):([^,: ]+)/", $options['checkin_exceptions'], $r);
+        if ($r[1]) {
+            $result = array_combine($r[1], $r[2]);
+            $disable_checkin_date = array_keys($result);
+            $allow_checkin_date = array_values($result);
+            $disable_checkin_date = '"' . implode("','", $disable_checkin_date) . '"';
+            $allow_checkin_date = '"' . implode("','", $allow_checkin_date) . '"';
+        }
+        $allow_checkin_day = $options['checkin_day'];
+
+        preg_match_all("/([^,: ]+):([^,: ]+)/", $options['checkout_exceptions'], $r);
+        if ($r[1]) {
+            $result = array_combine($r[1], $r[2]);
+            $disable_checkout_date = array_keys($result);
+            $allow_checkout_date = array_values($result);
+            $disable_checkout_date = '"' . implode("','", $disable_checkout_date) . '"';
+            $allow_checkout_date = '"' . implode("','", $allow_checkout_date) . '"';
+        }
+        $allow_checkout_day = $options['checkout_day'];
+        ?>
+        <script>
+            jQuery(function ($) {
+                var start = $('input[name="start_date"]');
+                var end = $('input[name="end_date"]');
+                var allow_checkin_day = <?php echo $allow_checkin_day; ?>;
+                var disable_checkin_date = <?php echo $disable_checkin_date; ?>;
+                var allow_checkin_date = <?php echo $allow_checkin_date; ?>;
+                var allow_checkout_day = <?php echo $allow_checkout_day; ?>;
+                var disable_checkout_date = <?php echo $disable_checkout_date; ?>;
+                var allow_checkout_date = <?php echo $allow_checkout_date; ?>;
+
+                $('#start_date').on('keypress', function (e) {
+                    e.preventDefault(); // Don't allow direct editing
+                });
+                start.datepicker({
+                    beforeShowDay: function (date) {
+                        var a = 0;
+                        var string = date.getDay();
+                        if (allow_checkin_day == string) {
+                            a = 1;
+                        }
+                        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                        if (disable_checkin_date.indexOf(string) != -1) {
+                            a = 0;
+                        }
+                        if (allow_checkin_date.indexOf(string) != -1) {
+                            a = 1;
+                        }
+                        if (a == 1) {
+                            return [true];
+                        } else {
+                            return [false];
+                        }
+                    }
+                });
+                end.datepicker({
+                    beforeShowDay: function (date) {
+                        var a = 0;
+                        var string = date.getDay();
+                        if (allow_checkout_day == string) {
+                            a = 1;
+                        }
+                        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                        if (disable_checkout_date.indexOf(string) != -1) {
+                            a = 0;
+                        }
+                        if (allow_checkout_date.indexOf(string) != -1) {
+                            a = 1;
+                        }
+                        if (a == 1) {
+                            return [true];
+                        } else {
+                            return [false];
+                        }
+                    }
+                });
             });
-        });
-    </script>
-    <?php
+        </script>
+    <?php } else {
+        ?>
+        }
+        <script>
+            jQuery(function ($) {
+                var start = $('input[name="start_date"]');
+                var end = $('input[name="end_date"]');
+                $('#start_date').on('keypress', function (e) {
+                    e.preventDefault(); // Don't allow direct editing
+                });
+                $('#end_date').on('keypress', function (e) {
+                    e.preventDefault(); // Don't allow direct editing
+                });
+                start.on('change', function () {
+                    var start_date = $(this).datepicker('getDate');
+                    start_date.setDate(start_date.getDate() + <?php echo $options['min_nights']; ?>);
+                    end.datepicker('option', 'minDate', start_date);
+                });
+            });
+        </script>
+        <?php
+    }
 }
 
 add_action('wp_footer', 'calendar_js');
