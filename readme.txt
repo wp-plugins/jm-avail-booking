@@ -166,6 +166,9 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.7
+Warning: array_combine()  solved.
+
 Version 1.0.6
 Fixed checkin/checkout days with exceptions added.
 

@@ -24,9 +24,14 @@ class AvailabilityCalendar {
         $options = get_option('jm_avail_booking_option_name');
         $this->options = $options;
         $this->week_firstday = get_option('start_of_week', '1');
-        preg_match_all("/([^,: ]+):([^,: ]+)/", $options['rooms'], $r);
-        $result = array_combine($r[1], $r[2]);
-        $this->numberrooms = $result;
+        If (isset($this->options[hotel])AND $this->options[hotel] == 1) {
+            preg_match_all("/([^,: ]+):([^,: ]+)/", $options['rooms'], $r);
+            $tmp = array_filter($r);
+            if (!empty($tmp)) {
+               $result = array_combine($r[1], $r[2]);
+            $this->numberrooms = $result;
+            }            
+        }
     }
 
     public function getHeader($year, $month, $instance, $display) {
@@ -45,8 +50,8 @@ class AvailabilityCalendar {
             $right_cel = '--&gt;';
         }
         $month_name = AvailabilityBookingFunctions::month_to_name($month);
-        //Built Calendar
-        // Build availcal div
+//Built Calendar
+// Build availcal div
 
         $calendar .= "	<div class=\"table_pos\"><table class=\"table table-bordered\"  >
                         <thead>
@@ -71,7 +76,7 @@ class AvailabilityCalendar {
 
     public function getDays($year, $month, $instance, $name, $display) {
 
-        //Determin month to display
+//Determin month to display
         $line_counter = 0;
         switch ($month) {
             case 13:
@@ -120,7 +125,7 @@ class AvailabilityCalendar {
         $monthplus = $month + 1;
         $header = $month_name . " - " . $year;
 
-        // Hotel mode check
+// Hotel mode check
 
         If (isset($this->options[hotel])AND $this->options[hotel] == 1) {
             $counter_limit = $this->numberrooms[$name];
@@ -128,7 +133,7 @@ class AvailabilityCalendar {
             $counter_limit = 1;
         }
 
-        //Body part Table
+//Body part Table
 
         $calendar .= "<tr id=\"table_info$display$instance\" style=\"display: none;\" data-year=\"$year\" data-monthmin=\"$monthmin\" data-monthplus=\"$monthplus\" data-monthname=\"$header\" data-name=\"$name\"></tr><tr>";
         $day = 1;
@@ -192,8 +197,8 @@ class AvailabilityCalendar {
                 if (($linkDate <= $booking['end']) and ( $linkDate >= $booking['start'])) {
                     $room_counter++; //busy
                     if (isset($this->options[firstlast])AND $this->options[firstlast] == 1) {
-                        if ($linkDate == $booking['end'])   {
-                            $room_counter-- ;
+                        if ($linkDate == $booking['end']) {
+                            $room_counter--;
                         }
                     }
                 }
@@ -217,7 +222,7 @@ class AvailabilityCalendar {
         }
 
         $calendar .= "</tr>";
-        // footer
+// footer
         if ($line_counter < 5) {
             if (isset($this->options[weeknumbers])) {
                 $calendar .= "<td class=\"weeknbr\"><div class=\"cel_hidden\">$day  $text_price</div> </td><td colspan=\"7\">&nbsp;</td></tr><tr>";
