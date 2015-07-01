@@ -166,6 +166,9 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.0.8 
+curly bracket in footer solved
+
 Version 1.0.7
 Warning: array_combine()  solved.
 

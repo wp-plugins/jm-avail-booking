@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.7
+  Version: 1.0.8
   Author: Jan Maat
   License: GPLv2
  */
@@ -381,7 +381,7 @@ function calendar_js() {
         </script>
     <?php } else {
         ?>
-        }
+        
         <script>
             jQuery(function ($) {
                 var start = $('input[name="start_date"]');
