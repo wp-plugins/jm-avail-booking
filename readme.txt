@@ -17,83 +17,82 @@ The shortcode [availbooking name="Voorkamer"] inserts the calendar(screenshot-1)
 
 The admin interface supports a database for the bookings and a database for the price information.
 
-The bookings database contains all bookings for all bookable items (screenshot-2) With the menu -Add new booking- or with the -Add new booking- button a form is availabile to enter a new booking. (screenshot-3)
+The bookings database contains all bookings for all bookable items (screenshot-2) With the menu -Add new booking- or with the -Add new booking- button a form is available to enter a new booking. (screenshot-3)
 
-With an option the display of the calendar is swichted between one monht and a block of three months (see screenshot-6 and screenshot-10)
+With an option the display of the calendar is switched between one month and a block of three months (see screenshot-6 and screenshot-10)
 
-Name: select the name from the list of available bookable items (see settings)
-Status:
+=Bookings Database fields=
 
-- Requested (Booking filled by the Booking Form, displayed as free)
+**Name**: select the name from the list of available bookable items (see settings)
+**Status**:
+* Requested (Booking filled by the Booking Form, displayed as free)
+* Reserved (Booking accepted and displayed as busy but waiting for payment)
+* Booked (Booking accepted and displayed as busy)
+* Rejected (Displayed as free)
 
-- Reserved (Booking accepted and displayed as busy but waiting for payment)
+**Check-in**
 
-- Booked (Booking accepted and displayed as busy)
+**Check-out**
 
-- Rejected (Displayed as free)
+**Email**: The email address of the applicant.
 
-Check in
+**Phone number**: The phone number of the applicant.
 
-Check out
+**Country**: The country of the applicant.
 
-Email: The email address of the applicant.
-
-Phone number: The phone number of the applicant.
-
-Country: The country of the applicant.
-
-Language: The preferred language of the applicant.
+**Language**: The preferred language of the applicant.
 
 The price database contains the price definitions.(screenshot-4)
 The example of screenshot 4 reads as, the price of the -Voorkamer- is euro 65,00 from 2015-01-05 till 2015-05-21 and is euro 75,00 from 2015-05-22 on.
-With the menu -Add new price- or with the -Add new price- button a form is availabile to enter a new price. (screenshot 5)
+With the menu -Add new price- or with the -Add new price- button a form is available to enter a new price. (screenshot 5)
 
-Name: select the name from the list of available bookable items (see settings)
+=Price Database fields=
 
-Date: Start date of the new price.
+**Name**: select the name from the list of available bookable items (see settings)
 
-Price: The new price.
+**Date**: Start date of the new price.
 
-The menu Settings->WP Availability Calendar & Bookings Settings opens the settings form. (screenshot 6)
+**Price**: The new price.
 
-Calendar display: Show one month or a block of three months
+=The menu Settings->WP Availability Calendar & Bookings Settings opens the settings form. (screenshot 6)=
 
-Used in widget:
-In an early stage of the page rendering the plugin checks the presents of the short code in one of more of the post on that page.
+*Calendar display*: Show one month or a block of three months
+
+*Used in widget*:
+In an early stage of the page rendering the plugin checks the presents of the short code in one or more post on that page.
 If present the required css and javascript files are added to the page.
-As far as I know wp does not offer such an early hook for sidebar/widgets. The default text widget does not support shortcodes so a third party is required. Relying on these third party implementations is difficult therefore I added an option to the settings  -Used in widget- .
-With this option set the required css and javascript files ar added to all pages. I think this is justifiable because widget are mostly shown on many pages.
+This check doesn't work when the short code is placed in a sidebar or widget. As far as I know there is not such an early hook for sidebar/widgets. 
+The default text widget does not support shortcodes so a third party plugin is required. Relying on these third party implementations is difficult therefore I added an option to the settings  -Used in widget- .
+With this option set the required css and javascript files are added to all pages. I think this is justifiable because widgets are mostly shown on many pages.
 
-Display Last Day as free: If set a new check in after a check out on the same day is allowed.
+*Display Last Day as free*: If set a new check in after a check out on the same day is allowed.
 
-Show Weeknumbers: If set show weeknumbers in the calendar (screenshot 1).
+*Show Week numbers*: If set week numbers are displayed in the calendar (screenshot 1).
 
-Show Prices: If set show the price info in the calendar.
-
-
-
-Minimum Nights: The minimum nigths allowed for the booking and is use in the contactform 7 bookings form.
+*Show Prices*: If set the price info is displayed in the calendar.
 
 
-Small Hotel mode: 
-In the default mode there is 1 calendar per room identified by the name of the room as given in the -List of Rooms- parameter.
+*Minimum Nights*: The minimum nights allowed for the booking and is used in the contactform 7 bookings form.
+
+
+*Small Hotel mode*: In the default mode there is 1 calendar per room identified by the name of the room as given in the -List of Rooms- parameter.
 
 In the small Hotel moder there is 1 calendar per room type e.g standard room or deluxe room.
 The -List of Rooms- parameter gives in this mode the room type with the number of rooms per type.
 
-List of Rooms: List of bookable items separared by a comma.
+*List of Rooms*: List of bookable items separated by a comma.
 
 Default mode:  room_name_1, room_name_2,room_name_3
 
 Small Hotel mode: room_type_1:x,room_type_2:y,room_type_3:z
 x,y and z are the number of rooms of that type.
 
-Use fixed days for checkin and checkout. For the checkin and the checkout a fixed weekday can be selected. 
+*Use fixed days for check-in and check-out*. For the check-in and the check-out a fixed weekday can be selected.
+ 
 Exceptions can be set by combinations of two dates as 2015-07-25:2015-07-24,date-x:date-y. 
 2015-07-24 replaces 2015-07-25, as for date-y and date-x.
 
-Integration with ContactForm7.
-
+=Integration with ContactForm7.=
 The integrations with ContactForm7 not only sends the email with the booking information but also stores it directly into the WP Availability Calendar & Booking database.
 It also adds the name of the calendar item (accommodation) to bookings form. (screenshot 7)
 
@@ -101,31 +100,30 @@ This is achieved by adding the shortcode [booking] to the form part of the Conta
 
 The fields added to the database are:
 
-Your Name - [text* your-name]
+**Your Name** - [text* your-name]
+
+**Your Email** - [email* your-email]
+
+**Check-in Date** - [text* start_date] 
+Use this definition when the plugin option -Internal Datepicker- is used. With the definition [date* start_date] functions like *Minimum Nights*, *Restrict Reservations*, *Fixed Days* will not work.
+
+*Check-out Date* - [text* end_date]
+Use this definition when the plugin option -Internal Datepicker- is used. With the definition [date* end_date] functions like *Minimum Nights*, *Restrict Reservations*, *Fixed Days* will not work.
+
+*Telephone Number* - [text* your-phone]
+
+*Country* - [select* your-country ....]
+
+*Correspondence language* - [select* your-language "nl""en"] 
 
 
-Your Email - [email* your-email]
-
-Checkin Date - [date* start_date id:start_date date-format:dd-mm-yy first-day:1 min-date:0 change-month change-year]
-
-Checkout Date - [date* end_date id:end_date date-format:dd-mm-yy first-day:1 min-date:0 change-month change-year]
-
-Telephone Number - [text* your-phone]
-
-Country - [select* your-country ....]
-
-Correspondence language - [select* your-language "nl""en"]
- 
-These fields may be extended as possible in ContactForm7, e.g. a datepicker may be added.
-
-There are three possible combinations of calendar and ContactForm7.
+=There are three possible combinations of calendar and ContactForm7.=
 
 1. multiple calendars on one page with on that page the bookings form.
 This is the default and needs no further actions as the above mentioned insert of the [booking] shortcodes.
 
 2. one calendar with a for that calendar specific bookings form on the same page. So you need for each page a separate contactform.
-In this case replace the [booking] in the form part of the contactform settings with 
-[booking room_name]
+In this case replace the [booking] in the form part of the contactform settings with [booking room_name]
 
 3. There are multiple calendar pages (one for each room) with a generic bookings form page. In this case there is only one contactform needed as in situation 2 there is a contactform for each calendar page.
 -The permalinks settings must be Post name.
@@ -166,6 +164,15 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+**Version 1.1.0**
+Two major functions are added:
+1. Restrict Reservations (x(working)days from submit date)
+2. Change in the definition of the ContactForm7 check-in and check-out fields.
+
+In the release 1.0.7 and earlier the date fields are defined as [date* start_date....] and [date* end_date...]. With the plugin ContactForm7 Datepicker a datepicker was added. Unfortunately this plugin mall functions  with the latest release of ContactForm7 and no support seems to be given.
+The built in datepicker of ContactForm7 lacks an adequate control of the datepicker options needed for the -Restrict Reservations-.
+Due to the above the plugin now loads the WP Datepicker. To avoid interaction with the CTF7 datepicker the field types must change to text. [text* start_date]
+
 Version 1.0.8 
 curly bracket in footer solved
 
@@ -193,26 +200,3 @@ Version 1.0.0
 
 Generic booking form (ContactForm7) added
 Readme.txt updated
-
-
-Version 0.9.0
-
-Display option with 3 month block added
-
-Version 0.8.3
-
-Option added to have a fixed value instead of drop down in the Contact Form 7
-
-Version 0.8.2
-
-Export status solved
-
-Version 0.8.1
-
-Navigation problem solved
-
-Version 0.8
-
-Include Export/import function.
-Update Description op ContactForm7 integration.
-Solved possible name conflicts in DB

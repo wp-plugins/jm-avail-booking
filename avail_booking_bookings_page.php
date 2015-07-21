@@ -2,7 +2,7 @@
 add_action('admin_menu', 'Avail_Booking_Bookings_admin_menu');
 
 // Register date picker
-add_action('admin_enqueue_scripts', 'Avail_Booking_enqueue_date_picker');
+//add_action('admin_enqueue_scripts', 'Avail_Booking_enqueue_date_picker');
 
 /*
  * Admin Settings fields 
@@ -31,6 +31,7 @@ function avial_booking_add_option() {
 /**
  * Enqueue the date picker
  */
+/*
 function Avail_Booking_enqueue_date_picker() {
     wp_enqueue_script(
             'field-date-js', plugins_url('jm-avail-booking/js/Field_Date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
@@ -42,7 +43,7 @@ function Avail_Booking_enqueue_date_picker() {
     }
     wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
 }
-
+*/
 function Avail_booking_Bookings_page_handler() {
     global $wpdb;
 

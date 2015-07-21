@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.0.8
+  Version: 1.1.0
   Author: Jan Maat
   License: GPLv2
  */
@@ -158,6 +158,16 @@ function jm_avail_booking_check_for_shortcode($posts) {
             wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
             wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
             wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
+            if ($options['ínternal_datepicker'] = 1) {
+                wp_enqueue_script('cf7_field-date-js', plugins_url('jm-avail-booking/js/cf7_field_date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+                );
+                If (get_bloginfo('language') == 'nl-NL') {
+                    wp_enqueue_script(
+                            'jquery.ui.datepicker-nl.js', plugins_url('jm-avail-booking/js/jquery.ui.datepicker-nl.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+                    );
+                }
+                wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
+            }
             if ($options['threemonths'] == 0) {
                 wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
             } else {
@@ -221,15 +231,15 @@ function jm_avail_booking_shortcode($atts) {
  * 
  */
 
-function add_query_vars($aVars) {
+function add_availcal_query_vars($aVars) {
     $aVars[] = "acc_name"; // represents the name of the accomodation as shown in the URL
     return $aVars;
 }
 
 // hook add_query_vars function into query_vars
-add_filter('query_vars', 'add_query_vars');
+add_filter('query_vars', 'add_availcal_query_vars');
 
-function add_rewrite_rules($aRules) {
+function add_availcal_rewrite_rules($aRules) {
     $options = get_option('jm_avail_booking_option_name');
     $acc_name = strtolower($options['booking_form']);
     $aNewRules = array('' . $acc_name . '/([^/]+)/?$' => 'index.php?pagename=' . $acc_name . '&acc_name=$matches[1]');
@@ -238,7 +248,7 @@ function add_rewrite_rules($aRules) {
 }
 
 // hook add_rewrite_rules function into rewrite_rules_array
-add_filter('rewrite_rules_array', 'add_rewrite_rules');
+add_filter('rewrite_rules_array', 'add_availcal_rewrite_rules');
 
 if (function_exists('wpcf7_add_shortcode')) {
     wpcf7_add_shortcode('booking', 'wpcf7_booking_shortcode_handler', true);
@@ -257,7 +267,7 @@ function wpcf7_booking_shortcode_handler($tag) {
     } else {
         $options = get_option('jm_avail_booking_option_name');
         if ($options[rooms] != "") {
-            //$rooms_values = explode(",", $options[rooms]);
+//$rooms_values = explode(",", $options[rooms]);
             $rooms_values = array_map(function($el) {
                 return explode(':', $el);
             }, explode(',', $options['rooms']));
@@ -267,7 +277,7 @@ function wpcf7_booking_shortcode_handler($tag) {
                     return explode(':', $el);
                 }, explode(',', $tag[attr]));
             } else {
-                //$rooms_names = explode(",", $options[rooms]);
+//$rooms_names = explode(",", $options[rooms]);
                 $rooms_names = array_map(function($el) {
                     return explode(':', $el);
                 }, explode(',', $options['rooms']));
@@ -295,7 +305,30 @@ function wpcf7_booking_shortcode_handler($tag) {
 
 function calendar_js() {
     $options = get_option('jm_avail_booking_option_name');
-
+    $start_minDate = 0;
+    $adjustments_array = array("[0,0,0,0,0,0,0]", "[0,0,0,0,0,2,1]", "[0,0,0,0,2,2,1]", "[0,0,0,2,2,2,1]", "[0,0,2,2,2,2,1]", "[0,2,2,2,2,2,1]", "[2,2,2,2,2,4,3]",
+        "[2,2,2,2,4,4,3]", "[2,2,2,4,4,4,3]", "[2,2,4,4,4,4,3]", "[2,4,4,4,4,4,3]", "[4,4,4,4,4,6,5]", "[4,4,4,4,6,6,5]", "[4,4,4,6,6,6,5]", "[4,4,6,6,6,6,5]");
+    if (isset($options['restrict_reservations']) OR ( $options['restrict_reservations'] != 0)) {
+        $start_minDate = $options['restrict_reservations'];
+    }
+    if (!isset($options['working_days']) OR ( $options['working_days'] == 0)) {
+        $adjustments = "[0,0,0,0,0,0,0]";
+    } else {
+        $adjustments = $adjustments_array[$start_minDate];
+    }
+    ?>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery(function ($) {
+                var start_minDate = <?php echo $start_minDate; ?>;
+                var WorkingDays = new Date();
+                var adjustments = <?php echo $adjustments; ?>; // Offsets by day of the week
+                WorkingDays.setDate(WorkingDays.getDate() + <?php echo $start_minDate; ?> + adjustments[WorkingDays.getDay()]);
+                $('#start_date').datepicker({minDate: WorkingDays});
+            });
+        });
+    </script>
+    <?php
     If ((isset($options['fixed_days'])) AND ( $options['fixed_days'] == 1)) {
         $disable_checkin_date = '" "';
         $allow_checkin_date = '" "';
@@ -322,6 +355,7 @@ function calendar_js() {
         $allow_checkout_day = $options['checkout_day'];
         ?>
         <script>
+
             jQuery(function ($) {
                 var start = $('input[name="start_date"]');
                 var end = $('input[name="end_date"]');
@@ -335,19 +369,29 @@ function calendar_js() {
                 $('#start_date').on('keypress', function (e) {
                     e.preventDefault(); // Don't allow direct editing
                 });
+
                 start.datepicker({
                     beforeShowDay: function (date) {
+
                         var a = 0;
                         var string = date.getDay();
-                        if (allow_checkin_day == string) {
-                            a = 1;
-                        }
-                        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                        if (disable_checkin_date.indexOf(string) != -1) {
-                            a = 0;
-                        }
-                        if (allow_checkin_date.indexOf(string) != -1) {
-                            a = 1;
+                        var past = date;
+                        var WorkingDays = new Date();
+                        var adjustments = <?php echo $adjustments; ?>; // Offsets by day of the week
+                        WorkingDays.setDate(WorkingDays.getDate() + <?php echo $start_minDate; ?> + adjustments[WorkingDays.getDay()]);
+                        var d = WorkingDays;
+
+                        if (past > d) {
+                            if (allow_checkin_day == string) {
+                                a = 1;
+                            }
+                            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                            if (disable_checkin_date.indexOf(string) != -1) {
+                                a = 0;
+                            }
+                            if (allow_checkin_date.indexOf(string) != -1) {
+                                a = 1;
+                            }
                         }
                         if (a == 1) {
                             return [true];
@@ -360,15 +404,19 @@ function calendar_js() {
                     beforeShowDay: function (date) {
                         var a = 0;
                         var string = date.getDay();
-                        if (allow_checkout_day == string) {
-                            a = 1;
-                        }
-                        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                        if (disable_checkout_date.indexOf(string) != -1) {
-                            a = 0;
-                        }
-                        if (allow_checkout_date.indexOf(string) != -1) {
-                            a = 1;
+                        var start_date = $('#start_date').val();
+                        var current = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                        if (current > start_date) {
+                            if (allow_checkout_day == string) {
+                                a = 1;
+                            }
+                            var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                            if (disable_checkout_date.indexOf(string) != -1) {
+                                a = 0;
+                            }
+                            if (allow_checkout_date.indexOf(string) != -1) {
+                                a = 1;
+                            }
                         }
                         if (a == 1) {
                             return [true];
@@ -378,16 +426,21 @@ function calendar_js() {
                     }
                 });
             });
+
         </script>
-    <?php } else {
+        <?php
+    } else {
         ?>
-        
+
         <script>
+
             jQuery(function ($) {
                 var start = $('input[name="start_date"]');
                 var end = $('input[name="end_date"]');
+
+
                 $('#start_date').on('keypress', function (e) {
-                    e.preventDefault(); // Don't allow direct editing
+                    e.preventDefault(); // Don't allow direct editing             
                 });
                 $('#end_date').on('keypress', function (e) {
                     e.preventDefault(); // Don't allow direct editing
@@ -450,3 +503,4 @@ if (is_admin()) {
 
 
 
+    
