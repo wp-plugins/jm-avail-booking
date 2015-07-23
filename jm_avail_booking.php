@@ -151,6 +151,16 @@ function jm_avail_booking_check_for_shortcode($posts) {
     $posts = $wp_query->posts;
     $pattern = get_shortcode_regex();
     $options = get_option('jm_avail_booking_option_name');
+    if ($options['ínternal_datepicker'] = 1) {
+        wp_enqueue_script('cf7_field-date-js', plugins_url('jm-avail-booking/js/cf7_field_date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+        );
+        If (get_bloginfo('language') == 'nl-NL') {
+            wp_enqueue_script(
+                    'jquery.ui.datepicker-nl.js', plugins_url('jm-avail-booking/js/jquery.ui.datepicker-nl.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
+            );
+        }
+        wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
+    }
     foreach ($posts as $post) {
         if (has_shortcode($post->post_content, 'availbooking') OR ( isset($options['in_widget']) AND ( $options['in_widget'] == 1))) {
             $url = plugin_dir_url(__FILE__);
@@ -158,16 +168,7 @@ function jm_avail_booking_check_for_shortcode($posts) {
             wp_enqueue_style('availbooking', $url . 'css/availbooking.css');
             wp_enqueue_script('bootstrapValidator', $url . 'js/bootstrapValidator.min.js', array('jquery'), '0.4.5', true);
             wp_enqueue_script('excecutevalidation', $url . 'js/excecutevalidation.js', array('bootstrapValidator'), '', true);
-            if ($options['ínternal_datepicker'] = 1) {
-                wp_enqueue_script('cf7_field-date-js', plugins_url('jm-avail-booking/js/cf7_field_date.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
-                );
-                If (get_bloginfo('language') == 'nl-NL') {
-                    wp_enqueue_script(
-                            'jquery.ui.datepicker-nl.js', plugins_url('jm-avail-booking/js/jquery.ui.datepicker-nl.js'), array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true
-                    );
-                }
-                wp_enqueue_style('jquery-ui-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css', true);
-            }
+
             if ($options['threemonths'] == 0) {
                 wp_enqueue_script('availbooking', $url . 'js/availbooking.js', array('jquery'), '0.4.5', true);
             } else {
