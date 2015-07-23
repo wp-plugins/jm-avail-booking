@@ -164,6 +164,9 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.1.1
+cf7_field-date.js was missing by mistake
+
 **Version 1.1.0**
 Two major functions are added:
 1. Restrict Reservations (x(working)days from submit date)
