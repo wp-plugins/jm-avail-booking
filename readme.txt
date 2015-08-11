@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A Calendar to show the day-to-day availability of a room/house with an integration with ContactForm 7 for on-line booking.
+A Calendar to show the day-to-day availability of a room/house with an integration with ContactForm 7 for on-line booking and synchronisation to Airb&b.
 
 
 == Description ==
@@ -20,6 +20,9 @@ The admin interface supports a database for the bookings and a database for the 
 The bookings database contains all bookings for all bookable items (screenshot-2) With the menu -Add new booking- or with the -Add new booking- button a form is available to enter a new booking. (screenshot-3)
 
 With an option the display of the calendar is switched between one month and a block of three months (see screenshot-6 and screenshot-10)
+
+For each separate item (room) a link is created to automatically upload the calendar to Airb&b and other sites with an ical interface.
+Airb&b requires a separate advertisement for each item (room). 
 
 =Bookings Database fields=
 
@@ -93,6 +96,7 @@ Exceptions can be set by combinations of two dates as 2015-07-25:2015-07-24,date
 2015-07-24 replaces 2015-07-25, as for date-y and date-x.
 
 =Integration with ContactForm7.=
+
 The integrations with ContactForm7 not only sends the email with the booking information but also stores it directly into the WP Availability Calendar & Booking database.
 It also adds the name of the calendar item (accommodation) to bookings form. (screenshot 7)
 
@@ -136,7 +140,19 @@ In this example -contact- is the title of the page with the form and -voorkamer-
 
 Default currency: Select the default currency format in the price info.
 
-Import/Export
+
+=Airb&b Sychronisation=
+
+*The available links are given in the settings*
+
+These links are only available after the list of rooms is set and saved.
+
+*Airb&b settings.*
+
+These settings controls the mapping to the Airb&b fields. See also screenshot 11.
+
+
+=Import/Export=
 
 With the menu -Import & Export- the bookings and price info can be exported and imported in a new installation. The export file is in xml format.
 

@@ -169,6 +169,51 @@ class Avail_Booking_SettingsPage {
             'value' => '',
             'label' => __('Select page with the single booking form. Open also the permalinks settings and click on save!! ', 'jm_avail_booking'),
         ));
+        // Airbenb
+        add_settings_section(
+                'airbenb_section_id', // ID
+                '' . __('Airbenb Settings', 'jm_avail_booking') . '', // Title
+                array($this, 'print_airbenb_section_info'), // Callback
+                'jm_avail_booking-setting-admin' // Page
+        );
+        add_settings_field(
+                'airbenb_confirmed', ' ' . __('Which status must block the Airbenb calendar', 'jm_avail_booking') . '', array($this, 'airbenb_confirmed_callback'), 'jm_avail_booking-setting-admin', 'airbenb_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'airbenb_confirmed',
+            'class' => '',
+            'value' => array(
+                '0' => __('Booked Only', 'jm_avail_booking'),
+                '1' => __('Reserved and Booked', 'jm_avail_booking'),                
+            ),
+            'label' => __('Select value for blocking the Airbenb Calendar.', 'jm_avail_booking'),
+        ));
+        add_settings_field(
+                'summary', ' ' . __('Which field must be mapped to the Airbenb Calendar Summary field', 'jm_avail_booking') . '', array($this, 'summary_callback'), 'jm_avail_booking-setting-admin', 'airbenb_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'summary',
+            'class' => '',
+            'value' => array(
+                '' => __('None', 'jm_avail_booking'),
+                'email' => __('Email', 'jm_avail_booking'),
+                'phone' => __('Phone Number', 'jm_avail_booking'), 
+                'status' => __('Status', 'jm_avail_booking'),
+            ),
+            'label' => __('Select value to map to the Airbenb Calendar.', 'jm_avail_booking'),
+        ));
+        add_settings_field(
+                'description', ' ' . __('Which field must be mapped to the Airbenb Calendar Descsription field', 'jm_avail_booking') . '', array($this, 'description_callback'), 'jm_avail_booking-setting-admin', 'airbenb_section_id', array(
+            'options-name' => 'jm_avail_booking_option_name',
+            'id' => 'description',
+            'class' => '',
+            'value' => array(
+                '' => __('None', 'jm_avail_booking'),
+                'email' => __('Email', 'jm_avail_booking'),
+                'phone' => __('Phone Number', 'jm_avail_booking'), 
+                'status' => __('Status', 'jm_avail_booking'),
+            ),
+            'label' => __('Select value to map to the Airbenb Calendar.', 'jm_avail_booking'),
+        ));
+
         // Default options
         add_settings_section(
                 'default_section_id', // ID
@@ -254,6 +299,13 @@ class Avail_Booking_SettingsPage {
             $new_input['status'] = sanitize_text_field($input['status']);
         if (isset($input['booking_form']))
             $new_input['booking_form'] = sanitize_text_field($input['booking_form']);
+        //Airbenb
+        if (isset($input['airbenb_confirmed']))
+            $new_input['airbenb_confirmed'] = sanitize_text_field($input['airbenb_confirmed']);
+        if (isset($input['summary']))
+            $new_input['summary'] = sanitize_text_field($input['summary']);
+        if (isset($input['description']))
+            $new_input['description'] = sanitize_text_field($input['description']);
         //Defaults
         if (isset($input['default_currency']))
             $new_input['default_currency'] = sanitize_text_field($input['default_currency']);
@@ -362,7 +414,7 @@ class Avail_Booking_SettingsPage {
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
             <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -386,7 +438,7 @@ class Avail_Booking_SettingsPage {
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
             <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -415,7 +467,7 @@ class Avail_Booking_SettingsPage {
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
             <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -450,6 +502,74 @@ class Avail_Booking_SettingsPage {
             ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+        <?php
+    }
+
+    // Airbenb
+    public function print_airbenb_section_info() {
+        _e('This section controls the Airbenb synchronisation', 'jm_avail_booking');
+        echo "</br></br>";
+        if (isset($this->options['rooms']) AND ( $this->options['rooms']) != "") {
+            $room_names = array_map(function($el) {
+                return explode(':', $el);
+            }, explode(',', $this->options['rooms']));
+            _e('You have the following Airbenb Links: </br>', 'jm_avail_booking');
+            foreach ($room_names as $room_name) {
+                echo site_url() . '/airbenb/' . strtolower($room_name[0]) . '</br>';
+            }
+        } else {
+            _e('To get the Airbenb Links first input the list of rooms  and click on Save.', 'jm_avail_booking');
+        }
+    }
+    public function airbenb_confirmed_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+            <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
+        <?php
+    }
+    public function summary_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+            <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
+        <?php
+    }
+    public function description_callback($args) {
+        // Set the options-name value to a variable
+        $name = $args['options-name'] . '[' . $args['id'] . ']';
+
+        // Get the options from the database
+        $options = get_option($args['options-name']);
+        ?>
+
+        <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
+            <?php foreach ($args['value'] as $key => $value) : ?>
+                <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
+
         <?php
     }
 
@@ -488,7 +608,7 @@ class Avail_Booking_SettingsPage {
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
             <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 
@@ -523,7 +643,7 @@ class Avail_Booking_SettingsPage {
         <select name="<?php echo $name; ?>" id="<?php echo $args['id']; ?>" <?php if (!empty($args['class'])) echo 'class="' . $args['class'] . '" '; ?>>
             <?php foreach ($args['value'] as $key => $value) : ?>
                 <option value="<?php esc_attr_e($key); ?>"<?php if (isset($options[$args['id']])) selected($key, $options[$args['id']], true); ?>><?php esc_attr_e($value); ?></option>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
         </select>
         <label for="<?php echo $args['id']; ?>" style=""><?php esc_attr_e($args['label']); ?></label>
 

@@ -2,7 +2,7 @@
 /*
   Plugin Name: WP Availability Calendar & Booking
   Description: Availability Calendar and Booking Form
-  Version: 1.1.1
+  Version: 1.2.0
   Author: Jan Maat
   License: GPLv2
  */
@@ -31,6 +31,21 @@ if (!class_exists('AvailabilityBookingAutoloader')) {
 if (!class_exists('WP_List_Table')) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+// include airbenb
+require_once ('avail_booking_airbenb.php');
+
+register_deactivation_hook(__FILE__, 'avail_booking_deactivate');
+
+function avail_booking_deactivate() {
+    flush_rewrite_rules();
+}
+
+// Add the endpoint rewrite rules
+add_filter('init', 'avail_booking_add_rules');
+
+function avail_booking_add_rules() {
+    add_rewrite_endpoint('airbenb', EP_ROOT);
+}
 /*
  * Install 
  */
@@ -40,6 +55,14 @@ function AvailabilityBooking_install() {
     if (version_compare(get_bloginfo('version'), '3.8.1', '<')) {
         die("This Plugin requires WordPress version 3.8.1 or higher");
     }
+
+    /*
+     * Add rewrite rules for Airbenb Sync
+     * 
+     */
+    avail_booking_add_rules();
+    flush_rewrite_rules();
+    
     require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
 
     global $wpdb;
@@ -131,12 +154,12 @@ function AvailabilityBooking_install() {
     }
 }
 
+// Add actions
+add_action('init', 'jm_avail_booking_init');
+
 function jm_avail_booking_init() {
     load_plugin_textdomain('jm_avail_booking', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
-
-// Add actions
-add_action('init', 'jm_avail_booking_init');
 
 // Add shortcode
 add_shortcode('availbooking', 'jm_avail_booking_shortcode');

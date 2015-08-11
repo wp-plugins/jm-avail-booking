@@ -57,9 +57,9 @@ class Avail_Booking_db {
         $num_rows = count($result);
         if ($num_rows == 0) {
             $last_price = -1;
-        }else {
-        $last_price[0]['price'] = $result[0]['price'];
-        $last_price[0]['date'] = $result[0]['date'];
+        } else {
+            $last_price[0]['price'] = $result[0]['price'];
+            $last_price[0]['date'] = $result[0]['date'];
         }
         return $last_price;
     }
@@ -74,11 +74,44 @@ class Avail_Booking_db {
         if ($num_rows != 0) {
             $counter = 0;
             while ($counter < $num_rows) {
-             $prices[$counter]['date'] = strtotime($results[$counter]['date']);
-             $prices[$counter]['price'] = $results[$counter]['price'];
-             $counter++;
-            }            
+                $prices[$counter]['date'] = strtotime($results[$counter]['date']);
+                $prices[$counter]['price'] = $results[$counter]['price'];
+                $counter++;
+            }
         }
         return $prices;
     }
+
+    public function get_ical_bookings($name, $confirmed) {
+        global $wpdb;
+        $this->table_name = $wpdb->prefix . 'AvailabilityBooking_Bookings';
+        if ($confirmed == 0) {
+            $results = $wpdb->get_results("SELECT * FROM $this->table_name WHERE
+            (`name` = '$name') AND (`status`= 3)
+                AND
+            ((`start_date` >= CURRENT_DATE )
+                OR
+            (`end_date` >= CURRENT_DATE)
+                )                
+                ", ARRAY_A);
+        } else {
+            $results = $wpdb->get_results("SELECT * FROM $this->table_name WHERE
+            (`name` = '$name') AND ((`status`= 2) OR (`status`= 3))
+                AND
+            ((`start_date` >= CURRENT_DATE )
+                OR
+            (`end_date` >= CURRENT_DATE)
+                )                
+                ", ARRAY_A);
+        }
+        return $results;
+    }
+
+    public function get_all_bookings() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'AvailabilityBooking_Bookings';
+        $results = $wpdb->get_results("SELECT * FROM {$table_name}", ARRAY_A);
+        return $results;
+    }
+
 }

@@ -24,8 +24,8 @@ If (isset($_REQUEST['export'])) {
 
 //Execute Export
 // Get Bookings
-        $table_name = $wpdb->prefix . 'AvailabilityBooking_Bookings';
-        $items = $wpdb->get_results("SELECT * FROM {$table_name}", ARRAY_A);
+        $avail_booking_db = new Avail_Booking_db();
+        $items = $avail_booking_db->get_all_bookings();
 //Generate xml output
 // Output XML header.
         $output = '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
