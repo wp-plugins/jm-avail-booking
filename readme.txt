@@ -180,6 +180,9 @@ With the menu -Import & Export- the bookings and price info can be exported and 
 10. screenshot-10.png
 
 == Changelog ==
+Version 1.2.0
+Synchronisation with AirB&B added.
+
 Version 1.1.1
 cf7_field-date.js was missing by mistake
 
