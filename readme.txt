@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A Calendar to show the day-to-day availability of a room/house with an integration with ContactForm 7 for on-line booking and synchronisation to Airb&b.
+A Calendar to show the day-to-day availability of a room/house with an integration with ContactForm 7 for on-line booking and synch to Airb&b.
 
 
 == Description ==
